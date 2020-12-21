@@ -82,8 +82,8 @@ public class ProductController {
 	
 	@GetMapping("/listproducts")
 	public String listProductForm(Model model, @RequestParam(value = "page", defaultValue = "0") Integer page,@Param("keyword") String keyword,
-			@RequestParam(value ="size", defaultValue = "3") Integer size, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+			@RequestParam(value ="size", defaultValue = "3") Integer size) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 
 		System.out.println("Stock add");
 		Page<Product> listProducts = product_svc.listProducts(keyword,page, size);
@@ -91,7 +91,7 @@ public class ProductController {
 		model.addAttribute("supplier", supplier_svc.findAll());
         model.addAttribute("pageCount",listProducts.getTotalPages()-1);
 	    model.addAttribute("keyword", keyword); 
-	    model.addAttribute("hasPermission",session_svc.hasPermission(session));
+	    model.addAttribute("hasPermission",session_svc.hasPermission());
 		return "products";
 	}
 	

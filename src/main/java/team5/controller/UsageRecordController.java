@@ -32,6 +32,9 @@ public class UsageRecordController {
 	@Autowired
 	private SessionService session_svc;
 	
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
+	
 
 	@Autowired 
 	public void setImplimentation(UsageRecordServiceImpl ur_svcimpl, ProductServiceImpl product_svcimpl, SessionServiceImpl session_svcimpl) {
@@ -41,16 +44,16 @@ public class UsageRecordController {
 	}
 	
 	@RequestMapping(value = "/add")
-	public String addform(Model model,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+	public String addform(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("usage",new UsageRecord());
 		return "stock-usage-form";
 	}
 	
 	@RequestMapping(value = "/list")
-	public String list(Model model,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+	public String list(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("usage", ur_svc.findAll());
 		model.addAttribute("product",product_svc.findAll());
@@ -58,8 +61,8 @@ public class UsageRecordController {
 	}
 	
 	@RequestMapping(value = "/save")
-    public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+    public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if(bindingResult.hasErrors()) return "stock-usage-form";
 		
 		User user = (User) session.getAttribute("user");

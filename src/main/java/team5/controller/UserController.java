@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import team5.model.RoleType;
 import team5.model.User;
@@ -35,6 +34,9 @@ public class UserController {
 	
 	@Autowired
 	private SessionService session_svc;
+
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
 	
 	@Autowired 
 	public void setImplimentation(UserServiceImpl user_svcimpl, SessionServiceImpl session_svcimpl) {
@@ -52,9 +54,9 @@ public class UserController {
 	
 	//only admin can add
 	@GetMapping("/add")
-	public String addUser(Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String addUser(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("roleType", RoleType.values());
 		model.addAttribute("path", "/user/validate");
@@ -63,7 +65,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/validate")
-	public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session, Model model) {
+	public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, Model model) {
 		model.addAttribute("roleType", RoleType.values());
 		model.addAttribute("path", "/user/validate");
 		if (bindingResult.hasErrors()) {
@@ -76,9 +78,9 @@ public class UserController {
 	
 	//only admin can retrieve the list
 	@GetMapping("/users")
-	public String viewUser(Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String viewUser(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 
 		// retrieval was done with js 
 		return "UserList";
@@ -87,9 +89,9 @@ public class UserController {
 	
 	//only admin can edit
 	@RequestMapping(value = "/edit/{id}")
-	public String editUser(@PathVariable("id") long id, Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String editUser(@PathVariable("id") long id, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		User toChange = user_svc.findById(id);
 		model.addAttribute("roleType", RoleType.values());
@@ -100,9 +102,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/save")
-	public String editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session, Model model) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("roleType", RoleType.values());
 		model.addAttribute("path", "/user/save");
@@ -120,8 +122,8 @@ public class UserController {
 	
 	//everyone can change password
 	@GetMapping("/update")
-	public String updateUser(Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+	public String updateUser(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		User user = (User) session.getAttribute("user"); 
 		model.addAttribute("roleType", RoleType.values());
 		model.addAttribute("path", "/user/update");
@@ -130,8 +132,8 @@ public class UserController {
 	}
 
 	@PostMapping("/update")
-	public String updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session, Model model) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+	public String updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		model.addAttribute("roleType", RoleType.values());
 		model.addAttribute("path", "/user/update");
 		if (bindingResult.hasErrors()) return "editUser";
@@ -144,9 +146,9 @@ public class UserController {
 	
 	//only admin can delete
 	@PostMapping("/delete")
-	public String deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		System.out.println("test");
 		user_svc.deleteUsers(deleteUsers);
 		return "redirect:/user/users";

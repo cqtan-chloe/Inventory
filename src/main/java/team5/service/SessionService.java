@@ -9,7 +9,7 @@ public interface SessionService {
 
 	public boolean authenticate(User user);
 
-	public boolean isNotLoggedIn(HttpSession session);
-	public boolean hasNoPermission(HttpSession session);
-	public boolean hasPermission(HttpSession session);
+	public boolean isNotLoggedIn();
+	public boolean hasNoPermission();
+	public boolean hasPermission();
 }

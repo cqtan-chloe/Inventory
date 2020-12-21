@@ -27,6 +27,9 @@ public class SupplierController {
 	@Autowired
 	private SessionService session_svc;
 	
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
+	
 	@Autowired 
 	public void setImplimentation(SupplierServiceImpl supplier_svcimpl, SessionServiceImpl session_svcimpl) {
 		this.supplier_svc = supplier_svcimpl;
@@ -34,9 +37,9 @@ public class SupplierController {
 	}
 	
 	@RequestMapping(value = "/list")
-	public String list(Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String list(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("suppliers", supplier_svc.findAll());
 		return "suppliers";
@@ -44,18 +47,18 @@ public class SupplierController {
 	}
 	
 	@RequestMapping(value = "/add")
-	public String addForm(Model model,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String addForm(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("suppliers", new Supplier());
 		return "supplierform";
 	}
 	
 	@RequestMapping(value = "/edit/{id}")
-	public String editForm(@PathVariable("id") Long id, Model model,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String editForm(@PathVariable("id") Long id, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("suppliers", supplier_svc.findById(id));
 		return "supplierform";
@@ -63,9 +66,9 @@ public class SupplierController {
 	
 	@RequestMapping(value = "/save")
 	public String saveSupplier(@ModelAttribute("supplier") @Valid Supplier supplier,
-			BindingResult bindingResult, Model model, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+			BindingResult bindingResult, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		if (bindingResult.hasErrors()) return "supplierform";
 		
 		supplier_svc.save(supplier);
@@ -73,9 +76,9 @@ public class SupplierController {
 	}
 	
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteSupplier(@PathVariable("id") Long id,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String deleteSupplier(@PathVariable("id") Long id) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		supplier_svc.delete(supplier_svc.findById(id));
 		return "forward:/supplier/list";

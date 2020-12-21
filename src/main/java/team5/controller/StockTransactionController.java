@@ -52,6 +52,9 @@ public class StockTransactionController {
     @Autowired
 	private SessionService session_svc;
     
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
+    
     @Autowired 
     public void setImplementation(ProductServiceImpl product_svcimpl, UsageRecordServiceImpl ur_svcimpl, StockTransactionService st_svcimpl, SessionServiceImpl session_svcimpl){
     	this.product_svc = product_svcimpl;
@@ -68,9 +71,9 @@ public class StockTransactionController {
 	// create stock transaction entry to increase quantity		// checked 
 	// for admin when stock arrives 
 	@GetMapping("/add")
-	public String addStock(Model model, @Param("keyword") String keyword, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+	public String addStock(Model model, @Param("keyword") String keyword) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		/*
 		}else if(user.getRole()==RoleType.ADMIN){
 			keyword = null;*/
@@ -136,8 +139,8 @@ public class StockTransactionController {
 	// quantity change is implied to be negative (withdraw from inventory)
 	// can change 
     @RequestMapping(value = "/part-list/{id}")		// checked 
-    public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+    public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
         List<Product> listProducts = product_svc.findAll();
         ArrayList<ProductMapForm> productMapFormL = new ArrayList<ProductMapForm>();
@@ -160,9 +163,9 @@ public class StockTransactionController {
     
     @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
     public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
-                             ,@RequestParam("usageRecordId") Long id, HttpSession session) {
+                             ,@RequestParam("usageRecordId") Long id) {
             
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 
 		System.out.println("Used Quantity");
 		for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {

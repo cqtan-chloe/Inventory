@@ -17,6 +17,9 @@ public class SessionServiceImpl implements SessionService {
 	@Autowired
 	UserRepo urepo;
 	
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
+	
 	public boolean authenticate(User user) {
 		User dbuser = urepo.findByUserName(user.getUserName());
 		if (dbuser==null) {
@@ -29,7 +32,7 @@ public class SessionServiceImpl implements SessionService {
 	}
 	
 	
-	public boolean isNotLoggedIn(HttpSession session) {
+	public boolean isNotLoggedIn() {
 		User user = (User) session.getAttribute("user");
 		if (user == null)
 			return true;
@@ -37,7 +40,7 @@ public class SessionServiceImpl implements SessionService {
 			return false;
 	}
 	
-	public boolean hasNoPermission(HttpSession session) {
+	public boolean hasNoPermission() {
 		User user = (User) session.getAttribute("user");
 		if (user.getRole() != RoleType.ADMIN)
 			return true;
@@ -45,7 +48,7 @@ public class SessionServiceImpl implements SessionService {
 			return false;
 	}
 	
-	public boolean hasPermission(HttpSession session) {
+	public boolean hasPermission() {
 		User user = (User) session.getAttribute("user");
 		if (user.getRole() == RoleType.ADMIN)
 			return true;

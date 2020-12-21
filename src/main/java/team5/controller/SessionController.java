@@ -24,6 +24,9 @@ public class SessionController {
 	@Autowired
 	private SessionService ssvc;
 	
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
+	
 	//everyone can login
 	@RequestMapping(path = "/login")
 	public String login(Model model) {
@@ -33,14 +36,14 @@ public class SessionController {
 	}
 	
 	@GetMapping("/logout")
-	public ModelAndView logout(HttpSession session) {
+	public ModelAndView logout() {
 		session.invalidate();
 		ModelAndView mv = new ModelAndView("redirect:/user/login");
 		return mv;
 	}
 	
 	@RequestMapping(path = "/authenticate")
-	public String authenticate(@ModelAttribute("user") User user, Model model, HttpSession session) {
+	public String authenticate(@ModelAttribute("user") User user, Model model) {
 		if(ssvc.authenticate(user)) 
 		{
 			User u = usvc.findByUsername(user.getUserName());

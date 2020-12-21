@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,9 @@ public class RestWebController {
 	
 	@Autowired
 	private FixsetDetailsService fixsetD_svc;
+	
+	@Autowired
+	HttpSession session;		// not an interface. an object passed automatically by the framework 
 	
 	//for the javascript AJAX call, listing of users
 	@PostMapping("/user/users")
