@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class StockTransaction {
@@ -22,6 +23,9 @@ public class StockTransaction {
 	private long qtyChange;	// absolute value of quantity change 
 	
 	private String type;	// a hidden field. "restock"(+) and "use"(-) only
+	
+	@Transient
+	private long prev_val;	// absolute value of quantity change 
 	
 	public StockTransaction() {
 		super();
@@ -98,6 +102,14 @@ public class StockTransaction {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public long getPrev_val() {
+		return prev_val;
+	}
+
+	public void setPrev_val(long prev_val) {
+		this.prev_val = prev_val;
 	}
 	
 }

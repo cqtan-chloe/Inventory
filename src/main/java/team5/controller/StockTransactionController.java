@@ -27,6 +27,8 @@ import team5.model.Product;
 import team5.model.ProductMapForm;
 import team5.model.ProductMapFormWrapper;
 import team5.model.StockTransaction;
+import team5.model.Supplier;
+import team5.model.tmp;
 import team5.service.EmailService;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
@@ -66,11 +68,55 @@ public class StockTransactionController {
 	@Autowired
 	private EmailService emailService;
 	
+	
+	@RequestMapping(value = "/list")
+	public String list(Model model) {
+		
+		model.addAttribute("txns", st_svc.findAll());
+		return "stockTransaction";	
+	}
+	
+	@RequestMapping(value = "/add")
+	public String addForm(Model model) {
+		
+		model.addAttribute("txn", new StockTransaction());
+		return "stockTransactionForm";
+	}
+	
+	@RequestMapping(value = "/edit/{id}")
+	public String editForm(@PathVariable("id") Long id, Model model) {
+		
+		StockTransaction txn = st_svc.findById(id);
+		txn.setPrev_val(txn.getQtyChange());
+		model.addAttribute("txn", txn);
+		return "stockTransactionForm";
+	}
+	
+	@RequestMapping(value = "/save")
+	public String saveSupplier(@ModelAttribute("txn") @Valid StockTransaction txn,
+			BindingResult bindingResult, Model model) {
+		System.out.println(txn.getPrev_val());
+		System.out.println(txn.getQtyChange());
+		if (bindingResult.hasErrors()) return "stockTransactionForm";
+		
+		st_svc.save(txn);
+		return "forward:/stock/list";
+	}
+	
+	@RequestMapping(value = "/delete/{id}")
+	public String deleteSupplier(@PathVariable("id") Long id) {
+		
+		st_svc.delete(st_svc.findById(id));
+		return "forward:/stock/list";
+	}
+	
+	
+	
 	/*------------------------------------Create------------------------------------*/
 	
 	// create stock transaction entry to increase quantity		// checked 
 	// for admin when stock arrives 
-	@GetMapping("/add")
+	@GetMapping("/add2")
 	public String addStock(Model model, @Param("keyword") String keyword) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (session_svc.hasNoPermission()) return "nopermission";
