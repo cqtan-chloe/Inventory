@@ -20,14 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Product;
-import team5.model.ProductMapForm;
-import team5.model.ProductMapFormWrapper;
 import team5.model.StockTransaction;
-import team5.model.Supplier;
 import team5.service.EmailService;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
@@ -97,7 +93,7 @@ public class StockTransactionController {
 		if (bindingResult.hasErrors()) return "stockTransactionForm";
 		
 		Product p = product_svc.findById(txn.getProduct().getId());
-		p.setUnit(p.getUnit() - txn.getPrev_val() + txn.getQtyChange());
+		p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());
 		
 		st_svc.save(txn);
 		product_svc.save(p);
@@ -137,7 +133,7 @@ public class StockTransactionController {
 		if (result.hasErrors()) return "stockEntryForm";
 		
 		Product p = product_svc.findById(product.getId());
-		p.setUnit(product.getUnit() + p.getUnit());
+		p.setQty(product.getQty() + p.getQty());
 		product_svc.save(p);
 		return "forward:/product/listproducts";
 	}
@@ -185,69 +181,10 @@ public class StockTransactionController {
 	// the page shows the details of the UsageRecord and a list of StockTransaction records 
 	// quantity change is implied to be negative (withdraw from inventory)
 	// can change 
-    @RequestMapping(value = "/part-list/{id}")		// checked 
-    public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-        List<Product> listProducts = product_svc.findAll();
-        ArrayList<ProductMapForm> productMapFormL = new ArrayList<ProductMapForm>();
-        for (Product x: listProducts) {
-        	ProductMapForm temp = new ProductMapForm(x);
-        	productMapFormL.add(temp);
-        }
-        ProductMapFormWrapper wrapper = new ProductMapFormWrapper();        
-        wrapper.setProductMapFormL(productMapFormL);
-        model.addAttribute("productMapFormWrapper", wrapper);
-        model.addAttribute("products", listProducts);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("usagerecordid",id);
-        
-        return "part-list";
-    }
+
     
 	/*------------------------------------Update------------------------------------*/
-    
-    
-    @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
-    public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
-                             ,@RequestParam("usageRecordId") Long id) {
-            
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 
-		System.out.println("Used Quantity");
-		for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
-
-			Product p = product_svc.findById(productMapFormW.getProductMapFormL().get(i).getId());
-			if (p.getUnit() > productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
-				p.setUnit(p.getUnit() - productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
-				product_svc.save(p);
-				if (p.getUnit() < p.getMinReoderLevel()) {
-					emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product",
-							"Product (" + p.getName() + ") is lower than the minimun stock level");
-				}
-			}
-		}
-		ArrayList<StockTransaction> urdList = new ArrayList<StockTransaction>();
-		StockTransaction urd;
-		for (int x = 0; x < productMapFormW.getProductMapFormL().size(); x++) {
-			//pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(),
-					//productMapFormW.getProductMapFormL().get(x).getId());
-
-			if ((productMapFormW.getProductMapFormL().get(x).getQuantityUsed()) != 0) {
-				urd = new StockTransaction(
-						product_svc.findById(productMapFormW.getProductMapFormL().get(x).getId()),
-						ur_svc.findById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
-				urdList.add(urd);
-				st_svc.save(urd);
-			}
-
-		}
-
-		model.addAttribute("usage", urdList);
-		model.addAttribute("usagerecordid", id);
-
-		return "updatestock";
-	}
 	
 	
 }

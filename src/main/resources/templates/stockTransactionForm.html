@@ -14,12 +14,6 @@
 <br/>
 	<h3>Stock Transaction Form</h3>
 	
-	<!-- <form action="#" th:object="${prev_copy}" th:action="@{/stock/save}" method="post">
-			<fieldset>
-			<input type="hidden" th:field="*{prev_val}" th:value="${txn.qtyChange}">
-		</fieldset>
-	</form>  -->
-	
 	<form action="#" th:object="${txn}" th:action="@{/stock/save}" method="post">
 		<table class="table">
 		<tr>

@@ -2,7 +2,6 @@ package team5.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,7 +23,6 @@ import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
 import team5.service.SessionServiceImpl;
-import team5.service.SupplierService;
 
 @Controller
 @RequestMapping("/product")
@@ -33,9 +30,6 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService product_svc;
-	
-	@Autowired
-	private SupplierService supplier_svc;
 	
 	@Autowired
 	private SessionService session_svc;
@@ -54,7 +48,6 @@ public class ProductController {
 	
 	@GetMapping("/add")
 	public String showProductForm(Model model) {
-		model.addAttribute("supplier", supplier_svc.findAll());
 		model.addAttribute("product", new Product());
 		return "productform";
 	}
@@ -65,7 +58,7 @@ public class ProductController {
 			Model model) {
 		System.out.println(product.toString());
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("supplier", supplier_svc.findAll());
+			model.addAttribute("product", product_svc.findAll());
 			return "productform";
 		}
 		product_svc.save(product);
@@ -74,7 +67,6 @@ public class ProductController {
 	
 	@GetMapping("/edit/{id}")
 	public String showEditForm(Model model, @PathVariable("id") Long id) {
-		model.addAttribute("supplier", supplier_svc.findAll());
 		model.addAttribute("product", product_svc.findById(id));
 		return "productform";
 	}
@@ -88,7 +80,6 @@ public class ProductController {
 		System.out.println("Stock add");
 		Page<Product> listProducts = product_svc.listProducts(keyword,page, size);
 		model.addAttribute("products", listProducts);
-		model.addAttribute("supplier", supplier_svc.findAll());
         model.addAttribute("pageCount",listProducts.getTotalPages()-1);
 	    model.addAttribute("keyword", keyword); 
 	    model.addAttribute("hasPermission",session_svc.hasPermission());
