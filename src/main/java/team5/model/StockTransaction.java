@@ -1,6 +1,7 @@
 package team5.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -104,10 +105,12 @@ public class StockTransaction {
 		this.type = type;
 	}
 	
+	@Transient
 	public long getPrev_val() {
 		return prev_val;
 	}
-
+	
+	@Transient
 	public void setPrev_val(long prev_val) {
 		this.prev_val = prev_val;
 	}

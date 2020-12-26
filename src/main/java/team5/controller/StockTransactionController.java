@@ -28,7 +28,6 @@ import team5.model.ProductMapForm;
 import team5.model.ProductMapFormWrapper;
 import team5.model.StockTransaction;
 import team5.model.Supplier;
-import team5.model.tmp;
 import team5.service.EmailService;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
@@ -95,11 +94,13 @@ public class StockTransactionController {
 	@RequestMapping(value = "/save")
 	public String saveSupplier(@ModelAttribute("txn") @Valid StockTransaction txn,
 			BindingResult bindingResult, Model model) {
-		System.out.println(txn.getPrev_val());
-		System.out.println(txn.getQtyChange());
 		if (bindingResult.hasErrors()) return "stockTransactionForm";
 		
+		Product p = product_svc.findById(txn.getProduct().getId());
+		p.setUnit(p.getUnit() - txn.getPrev_val() + txn.getQtyChange());
+		
 		st_svc.save(txn);
+		product_svc.save(p);
 		return "forward:/stock/list";
 	}
 	
