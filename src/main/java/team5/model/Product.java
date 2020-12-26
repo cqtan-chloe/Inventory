@@ -48,8 +48,7 @@ public class Product {
 	}
 	
 	public Product(long id, String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, List<StockTransaction> stockTranxList, 
-			long reorderLevel, long minReoderLevel) {
+			long priceFRetail, long qty, long reorderLevel, long minReoderLevel) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -64,8 +63,7 @@ public class Product {
 	}
 	
 	public Product(String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, List<StockTransaction> stockTranxList,
-			long reorderLevel, long minReoderLevel) {
+			long priceFRetail, long qty, long reorderLevel, long minReoderLevel) {
 		super();
 		this.name = name;
 		this.description = description;
