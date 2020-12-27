@@ -32,15 +32,6 @@ public class StockTransaction {
 		super();
 	}
 
-	// combination of parameters means that stock is withdrawn
-	public StockTransaction(long id, Product product, UsageRecord usageRecord, long qtyChange) {
-		super();
-		this.id = id;
-		this.product = product;
-		this.usageRecord = usageRecord;
-		this.qtyChange = qtyChange;
-		this.type = "use";
-	}
 
 	// combination of parameters means that stock is withdrawn
 	public StockTransaction(Product product, UsageRecord usageRecord, long qtyChange) {
@@ -50,15 +41,15 @@ public class StockTransaction {
 		this.qtyChange = qtyChange;
 		this.type = "use";
 	}
-
-	// combination of parameters means that stock is added
-	public StockTransaction(long id, Product product, long qtyChange) {
+	
+	// combination of parameters means that stock is returned to supplier
+	public StockTransaction(Product product, long qtyChange, String type) {
 		super();
-		this.id = id;
 		this.product = product;
 		this.qtyChange = qtyChange;
-		this.type = "restock";
+		this.type = type;
 	}
+
 
 	// combination of parameters means that stock is added
 	public StockTransaction(Product product, long qtyChange) {

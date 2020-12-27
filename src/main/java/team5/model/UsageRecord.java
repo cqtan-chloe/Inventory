@@ -1,30 +1,21 @@
 package team5.model;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
+// in addition to user and datetime
+// annotate decreases in qty due to usage with other info 
 @Entity
-public class UsageRecord {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+public class UsageRecord extends Annotation {
+
 	private String carPlate;
-
-
-	@DateTimeFormat (pattern="dd-MM-yyyy")
-	private Date date;
-
 	private String comments;
-	private String userName;
 	private String customerName;
+	private String status;
+	
 	@OneToMany(mappedBy = "usageRecord")
 	private List<StockTransaction> stockTranxList;
 
@@ -32,21 +23,12 @@ public class UsageRecord {
 		super();
 	}
 
-	public UsageRecord(String customerName, String carPlate, Date date, User user) {
+	public UsageRecord(String customerName, String carPlate, String status) {
 
 		super();
 		this.carPlate = carPlate;
-		this.date = date;
-		this.userName = user.getUserName();
 		this.customerName = customerName;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+		this.status = status;
 	}
 
 	public String getCarPlate() {
@@ -55,14 +37,6 @@ public class UsageRecord {
 
 	public void setCarPlate(String carPlate) {
 		this.carPlate = carPlate;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 
@@ -82,18 +56,6 @@ public class UsageRecord {
 		this.comments = comments;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(User user) {
-		this.userName = user.getUserName();
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -102,12 +64,14 @@ public class UsageRecord {
 		this.customerName = customerName;
 	}
 
-	@Override
-	public String toString() {
-		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
-				+ ", userName=" + userName + ", customerName=" + customerName + ", usageRecordDetail="
-				+ stockTranxList + "]";
+	public String getStatus() {
+		return status;
 	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 }
 
 	

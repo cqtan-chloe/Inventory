@@ -66,8 +66,8 @@ public class UsageRecordController {
 		if(bindingResult.hasErrors()) return "stock-usage-form";
 		
 		User user = (User) session.getAttribute("user");
-		usagerecord.setUserName(user);
-		ur_svc.save(usagerecord);
+		//usagerecord.setUserName(user);
+		//ur_svc.save(usagerecord);
         return "stock-usage-list";
     }
 	

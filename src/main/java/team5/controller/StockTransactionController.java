@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Product;
 import team5.model.StockTransaction;
-import team5.service.EmailService;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
@@ -49,9 +48,6 @@ public class StockTransactionController {
     @Autowired
 	private SessionService session_svc;
     
-	@Autowired
-	HttpSession session;		// not an interface. an object passed automatically by the framework 
-    
     @Autowired 
     public void setImplementation(ProductServiceImpl product_svcimpl, UsageRecordServiceImpl ur_svcimpl, StockTransactionService st_svcimpl, SessionServiceImpl session_svcimpl){
     	this.product_svc = product_svcimpl;
@@ -60,9 +56,6 @@ public class StockTransactionController {
     	this.session_svc = session_svcimpl;
     }
     
-	@Autowired
-	private EmailService emailService;
-	
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model) {

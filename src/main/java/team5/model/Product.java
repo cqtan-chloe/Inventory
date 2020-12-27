@@ -1,6 +1,5 @@
 package team5.model;
 
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,11 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
 
@@ -22,7 +18,6 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@NotNull
-	@Size(min = 2, max=100)
 	private String name;
 	private String description;
 	@Digits(integer = 8, fraction = 2)
@@ -30,14 +25,12 @@ public class Product {
 	private String category;
 	@Digits(integer = 8, fraction = 2)
 	private long priceFRetail;
-	@Digits(integer = 8, fraction = 2)
 	private long qty;
 
 	@OneToMany(mappedBy = "product", cascade = {CascadeType.ALL})
 	private List<StockTransaction> stockTranxList;
 
 	private long reorderLevel;
-    @Digits(integer = 8, fraction = 0)
 	private long minReoderLevel;
 
 	
@@ -57,7 +50,6 @@ public class Product {
 		this.category = category;
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
-		this.stockTranxList = stockTranxList;
 		this.reorderLevel = reorderLevel;
 		this.minReoderLevel = minReoderLevel;
 	}
@@ -71,7 +63,6 @@ public class Product {
 		this.category = category;
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
-		this.stockTranxList = stockTranxList;
 		this.reorderLevel = reorderLevel;
 		this.minReoderLevel = minReoderLevel;
 	}

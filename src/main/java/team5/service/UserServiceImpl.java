@@ -45,11 +45,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	public ArrayList<User> findByJobRole(RoleType roleType) {
-		ArrayList<User> userList = userRepo.findByRole(roleType);
-		return userList;
-	}
 
 	@Override
 	public User findByUsername(String userName) {
@@ -68,12 +63,4 @@ public class UserServiceImpl implements UserService {
 		return;
 	}
 	
-	@Override
-	public void deleteUsers(String[] users) {
-		for(String user: users) {
-			User temp = userRepo.findByUserName(user);
-			userRepo.delete(temp);
-		}
-		return;
-	}
 }
