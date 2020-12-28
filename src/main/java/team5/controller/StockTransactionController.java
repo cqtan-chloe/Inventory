@@ -60,7 +60,11 @@ public class StockTransactionController {
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model) {
+		List<StockTransaction> x = st_svc.findAll();
 		
+		for(StockTransaction txn : x)
+			System.out.println(txn.getAnnotation());
+			
 		model.addAttribute("txns", st_svc.findAll());
 		return "stockTransaction";	
 	}

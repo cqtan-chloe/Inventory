@@ -28,7 +28,7 @@ public class Annotation {
 	@ManyToOne
 	protected User user;
 	
-	@OneToOne(mappedBy = "annotation")
+	@OneToOne
 	private StockTransaction stockTranx;
 	
 	@Autowired

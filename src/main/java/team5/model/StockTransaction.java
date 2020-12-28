@@ -1,5 +1,7 @@
 package team5.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +23,7 @@ public class StockTransaction {
 	@ManyToOne
 	private  UsageRecord usageRecord;	// to be set as null be default 
 	
-	@OneToOne
+	@OneToOne//(mappedBy = "stockTranx")
 	private  Annotation annotation;
 	
 	private long qtyChange;	// absolute value of quantity change 
@@ -110,6 +112,24 @@ public class StockTransaction {
 	@Transient
 	public void setPrev_val(long prev_val) {
 		this.prev_val = prev_val;
+	}
+
+
+	public Annotation getAnnotation() {
+		return annotation;
+	}
+
+
+	public void setAnnotation(Annotation annotation) {
+		this.annotation = annotation;
+	}
+	
+	public Date getDate() {
+		return annotation.getDate();
+	}
+
+	public long getUserId(){
+		return annotation.getUser().getId();
 	}
 	
 }
