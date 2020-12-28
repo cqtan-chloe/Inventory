@@ -1,11 +1,11 @@
 package team5.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -21,6 +21,9 @@ public class StockTransaction {
 	@ManyToOne
 	private  UsageRecord usageRecord;	// to be set as null be default 
 	
+	@OneToOne
+	private  Annotation annotation;
+	
 	private long qtyChange;	// absolute value of quantity change 
 	
 	private String type;	// a hidden field. "restock"(+) and "use"(-) only
@@ -34,29 +37,32 @@ public class StockTransaction {
 
 
 	// combination of parameters means that stock is withdrawn
-	public StockTransaction(Product product, UsageRecord usageRecord, long qtyChange) {
+	public StockTransaction(Product product, UsageRecord usageRecord, long qtyChange, Annotation a) {
 		super();
 		this.product = product;
 		this.usageRecord = usageRecord;
 		this.qtyChange = qtyChange;
 		this.type = "use";
+		this.annotation = a;
 	}
 	
 	// combination of parameters means that stock is returned to supplier
-	public StockTransaction(Product product, long qtyChange, String type) {
+	public StockTransaction(Product product, long qtyChange, String type, Annotation a) {
 		super();
 		this.product = product;
 		this.qtyChange = qtyChange;
 		this.type = type;
+		this.annotation = a;
 	}
 
 
 	// combination of parameters means that stock is added
-	public StockTransaction(Product product, long qtyChange) {
+	public StockTransaction(Product product, long qtyChange, Annotation a) {
 		super();
 		this.product = product;
 		this.qtyChange = qtyChange;
 		this.type = "restock";
+		this.annotation = a;
 	}
 	
 	public long getId() {

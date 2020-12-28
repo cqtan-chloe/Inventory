@@ -14,5 +14,5 @@ public interface ProductService extends IService<Product> {
 	Product findByName(String name);
 	Optional<Product> OptionalFindById(Long id);
 	 
-	public Page<Product> listProducts(String keywords, int page,int size);
+	//public Page<Product> listProducts(String keywords, int page,int size);
 }

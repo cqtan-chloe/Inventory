@@ -2,15 +2,21 @@ package team5.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 // annotate changes to qty with user and datetime 
+@Entity
 public class Annotation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,25 +28,29 @@ public class Annotation {
 	@ManyToOne
 	protected User user;
 	
+	@OneToOne(mappedBy = "annotation")
+	private StockTransaction stockTranx;
 	
+	@Autowired
+	@Transient
+	HttpSession session;
 	
 	public Annotation() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Annotation(long id, Date date, User user) {
-		super();
-		this.id = id;
-		this.date = date;
-		this.user = user;
 	}
 	
-	public Annotation(Date date, User user) {
+	public Annotation(int i) { // fake params 
 		super();
-		this.date = date;
+		this.date = new Date();
+		this.user = (User) session.getAttribute("user");
+	}
+	
+	public Annotation(User user) {
+		super();
+		this.date = new Date();
 		this.user = user;
 	}
+
 
 	public long getId() {
 		return id;
@@ -66,3 +76,4 @@ public class Annotation {
 		this.user = user;
 	}
 }
+

@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
 	public Optional<Product> OptionalFindById(Long id) {
 		return prepo.findById(id);
 	}
+	/*
 	public Page<Product> listProducts(String keywords, int page,int size) {
 		Sort sort = Sort.by(Sort.Direction.ASC,"id");
 		Pageable pageable= PageRequest.of(page,size, sort);
@@ -71,6 +72,6 @@ public class ProductServiceImpl implements ProductService {
 			return prepo.search2(keywords,pageable);
 		}
 		return prepo.findAll(pageable);
-	}
+	}*/
 
 }

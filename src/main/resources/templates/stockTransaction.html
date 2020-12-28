@@ -16,7 +16,7 @@
 	<!-- Add Hyperlink -->
 	<a href="AddSupplier.html" th:href="@{/stock/add}">New Stock Transaction</a>
 
-	<h2 th:if="${not #lists.isEmpty(txns)}">StockTransaction List<</h2>
+	<h2 th:if="${not #lists.isEmpty(txns)}">StockTransaction List</h2>
 	<table th:if="${not #lists.isEmpty(txns)}" >
 		<tr >
 			<th>Id</th>

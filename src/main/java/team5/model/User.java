@@ -25,9 +25,9 @@ public class User {
 	private String password;
 	@NotNull
 	private RoleType role;
-	
+	/*
 	@OneToMany(mappedBy = "user")
-	private List<Annotation> annotations;
+	private List<Annotation> annotations;*/
 	
 	public User() {
 		super();
