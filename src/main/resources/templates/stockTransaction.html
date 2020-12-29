@@ -14,7 +14,9 @@
 <br/>
 	<h3>StockTransaction List</h3>
 	<!-- Add Hyperlink -->
-	<a href="AddSupplier.html" th:href="@{/stock/add}">New Stock Transaction</a>
+	<a th:href="@{/stock/add-restock}">New Restock Entry</a>
+	<a th:href="@{/stock/add-usage}">New Usage Entry</a>
+	<a th:href="@{/stock/add-return}">New Return Entry</a>
 
 	<h2 th:if="${not #lists.isEmpty(txns)}">StockTransaction List</h2>
 	<table th:if="${not #lists.isEmpty(txns)}" >
@@ -25,8 +27,8 @@
 			<th>ProductId</th>
 			<th>qtyChange</th>
 			<th>Type</th>
-			<th>Edit Supplier</th>
-			<th>Delete Supplier</th>
+			<th></th>
+			<th></th>
 		</tr>
 		<tr th:each="txn:${txns}" >
 			<td th:text=${txn.id}>Id</td>
@@ -37,10 +39,8 @@
 			<td th:if="${txn.type.equals('restock')}" class="btn btn-success" th:text=${txn.type}>Type</td>
 			<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
 			<td th:if="${txn.type.equals('return')}" class="btn btn-danger" th:text=${txn.type}>Type</td>
-			<td><a href="EditSupplier.html"
-				th:href="@{/stock/edit/}+${txn.id}">Edit</a></td>
-			<td><a href="Deletesupplier.html"
-				th:href="@{/stock/delete/}+${txn.id}">Delete</a></td>
+			<td><a th:href="@{/stock/edit/}+${txn.id}">Edit</a></td>
+			<td><a th:href="@{/stock/delete/}+${txn.id}">Delete</a></td>
 		</tr>
 	</table>
 <div th:replace="layout/layout.html :: footer"></div>	

@@ -111,13 +111,12 @@ public class UsageRecord { // extends Annotation {
 		this.carPlate = carPlate;
 	}
 
-
-	public List<StockTransaction> getStocktranx() {
+	public List<StockTransaction> getStockTranxList() {
 		return stockTranxList;
 	}
 
-	public void setStocktranx(List<StockTransaction> stocktranx) {
-		this.stockTranxList = stocktranx;
+	public void setStockTranxList(List<StockTransaction> stockTranxList) {
+		this.stockTranxList = stockTranxList;
 	}
 
 	public String getComments() {

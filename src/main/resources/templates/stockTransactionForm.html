@@ -20,14 +20,18 @@
 		<td>
 		<fieldset>
 			<input type="hidden" th:field="*{id}">
+			<input type="hidden" th:field="*{type}">
+			<input type="hidden" th:field="*{annotation}">
+			<input type="hidden" th:field="*{prev_val}">
 		</fieldset>
 		</td>
 		</tr>
 		
-				<tr>
+		<tr>
+		<td>UsageRecord Id</td>
 		<td>
 		<fieldset>
-			<input type="hidden" th:field="*{prev_val}">
+			<input th:if="*{type == 'use'}" th:field="*{usageRecord.id}">
 		</fieldset>
 		</td>
 		</tr>
@@ -56,23 +60,8 @@
 		<td>
 		<tr>
 		
-		
 		<tr>
-		<td>Type</td> 
-		<td>
-		<fieldset>
-			
-			<textarea th:field="*{type}" cols="30" rows="1"></textarea>
-			<p th:if="${#fields.hasErrors('type')}"
-				th:errors="*{type}"></p>
-		</fieldset>
-		<td>
-		<tr>
-
-		<tr>
-		<td>
-
-		</td>
+		<td></td>
 		<td>
 		<fieldset>
 			<input type="submit" value="Save"/>

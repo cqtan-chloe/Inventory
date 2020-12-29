@@ -33,10 +33,10 @@ public class SessionServiceImpl implements SessionService {
 	
 	
 	public boolean isNotLoggedIn() {
-		/*User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		if (user == null)
 			return true;
-		else */
+		else 
 			return false;
 	}
 	

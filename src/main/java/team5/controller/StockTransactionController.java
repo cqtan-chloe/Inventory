@@ -23,8 +23,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import team5.model.Annotation;
 import team5.model.Product;
 import team5.model.StockTransaction;
+import team5.model.UsageRecord;
+import team5.model.User;
+import team5.repo.AnnotationRepo;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
@@ -47,7 +51,13 @@ public class StockTransactionController {
     StockTransactionService st_svc;
     
     @Autowired
+    AnnotationRepo arepo;
+    
+    @Autowired
 	private SessionService session_svc;
+    
+    @Autowired 
+    HttpSession session;
     
     @Autowired 
     public void setImplementation(ProductServiceImpl product_svcimpl, UsageRecordServiceImpl ur_svcimpl, StockTransactionService st_svcimpl, SessionServiceImpl session_svcimpl){
@@ -60,19 +70,38 @@ public class StockTransactionController {
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model) {
-		List<StockTransaction> x = st_svc.findAll();
-		
-		for(StockTransaction txn : x)
-			System.out.println(txn.getAnnotation());
-			
+
 		model.addAttribute("txns", st_svc.findAll());
 		return "stockTransaction";	
 	}
 	
-	@RequestMapping(value = "/add")
-	public String addForm(Model model) {
+	@RequestMapping(value = "/add-restock")
+	public String addRestock(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		model.addAttribute("txn", new StockTransaction());
+		User user = (User) session.getAttribute("user");
+		Annotation a = arepo.save(new Annotation(user));
+		model.addAttribute("txn", new StockTransaction(null, 0, a)); // type == "restock" for this params combo
+		return "stockTransactionForm";
+	}
+	
+	@RequestMapping(value = "/add-usage")
+	public String addUsage(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+
+		User user = (User) session.getAttribute("user");
+		Annotation a = arepo.save(new Annotation(user));
+		model.addAttribute("txn", new StockTransaction(null, null, 0, a));  // type == "use" for this params combo
+		return "stockTransactionForm";
+	}
+	
+	@RequestMapping(value = "/add-return")
+	public String addRetrun(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
+		User user = (User) session.getAttribute("user");
+		Annotation a = arepo.save(new Annotation(user));
+		model.addAttribute("txn", new StockTransaction(null, 0, "return", a));
 		return "stockTransactionForm";
 	}
 	
@@ -98,91 +127,27 @@ public class StockTransactionController {
 		return "forward:/stock/list";
 	}
 	
+	@RequestMapping(value = "/saveX")
+	public String saveX(@ModelAttribute("usage") @Valid UsageRecord usage,
+			BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) return "stock-usage-form";
+		
+		for (StockTransaction txn : usage.getStockTranxList())
+		{
+			Product p = product_svc.findById(txn.getProduct().getId());
+			p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());
+			
+			st_svc.save(txn);
+			product_svc.save(p);
+		}
+		return "forward:/usage/list";
+	}
+	
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSupplier(@PathVariable("id") Long id) {
 		
 		st_svc.delete(st_svc.findById(id));
 		return "forward:/stock/list";
 	}
-	
-	
-	
-	/*------------------------------------Create------------------------------------*/
-	
-	// create stock transaction entry to increase quantity		// checked 
-	// for admin when stock arrives 
-	@GetMapping("/add2")
-	public String addStock(Model model, @Param("keyword") String keyword) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		if (session_svc.hasNoPermission()) return "nopermission";
-		/*
-		}else if(user.getRole()==RoleType.ADMIN){
-			keyword = null;*/
 
-		model.addAttribute("products", product_svc.findAll());
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("product", new Product());			
-
-		return "stockEntryForm";
-	}
-	
-	@GetMapping("/save")		// checked 
-	public String saveStockEntry(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
-		if (result.hasErrors()) return "stockEntryForm";
-		
-		Product p = product_svc.findById(product.getId());
-		p.setQty(product.getQty() + p.getQty());
-		product_svc.save(p);
-		return "forward:/product/listproducts";
-	}
-	
-	/*--------------------------------Read/Retrieve------------------------------------*/
-	
-
-	@GetMapping("/report")
-	public String usageReport(Model model) {
-		List<Product> products = product_svc.findAll();
-		model.addAttribute("products", products);
-		return "usageReport";
-	}
-	
-	// filter by productId and date range 
-	// done with the custom method defined in StockTransactionRepo extended from JPARepository 	// checked 
-	@PostMapping("/report")
-	public String usageReport(Model model, @RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
-		if (endD == "" || startD == "") {
-			return "redirect:/stock/report";
-		}
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date startDate = formatter.parse(startD);
-		Date endDate = formatter.parse(endD);
-		
-		Product product = product_svc.findById(id);
-		List<StockTransaction> fullUsageList = product.getStockTranxList();
-		List<StockTransaction> usageList = new ArrayList<StockTransaction>();
-		for(StockTransaction x : fullUsageList) {
-			if(!x.getUsageRecord().getDate().after(endDate) && !x.getUsageRecord().getDate().before(startDate)) {
-				usageList.add(x);
-			}
-		}
-
-		model.addAttribute("product",product);
-		model.addAttribute("usageList", usageList);
-		model.addAttribute("fromDate", startD);
-		model.addAttribute("ToDate", endD);
-		return "usageReportDetails"; // "stockTranxHistory";
-	}
-	
-
-	// filter by UsageRecordId
-	// done with the custom method defined in StockTransactionRepo extended from JpaRepository 
-	// the page shows the details of the UsageRecord and a list of StockTransaction records 
-	// quantity change is implied to be negative (withdraw from inventory)
-	// can change 
-
-    
-	/*------------------------------------Update------------------------------------*/
-
-	
-	
 }

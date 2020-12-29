@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import team5.model.StockTransaction;
 import team5.model.UsageRecord;
 import team5.model.User;
 import team5.service.ProductService;
@@ -51,25 +53,38 @@ public class UsageRecordController {
 		return "stock-usage-form";
 	}
 	
-	@RequestMapping(value = "/list")
-	public String list(Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-		model.addAttribute("usage", ur_svc.findAll());
-		model.addAttribute("product",product_svc.findAll());
-		return "stock-usage-list";
-	}
-	
 	@RequestMapping(value = "/save")
     public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if(bindingResult.hasErrors()) return "stock-usage-form";
 		
-		User user = (User) session.getAttribute("user");
-		//usagerecord.setUserName(user);
-		//ur_svc.save(usagerecord);
+		ur_svc.save(usagerecord);
         return "stock-usage-list";
     }
+	
+	@RequestMapping(value = "/list")
+	public String list(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
+		model.addAttribute("usage", ur_svc.findAll());
+		return "stock-usage-list";
+	}
+	
+	
+	@RequestMapping(value = "/edit/{id}")
+	public String editForm(@PathVariable("id") Long id, Model model) {
+		
+		UsageRecord ur = ur_svc.findById(id);
+		model.addAttribute("usage", ur);
+		return "stock-usage-form";
+	}
+	
+	@RequestMapping(value = "/delete/{id}")
+	public String deleteSupplier(@PathVariable("id") Long id) {
+		
+		ur_svc.delete(ur_svc.findById(id));
+		return "forward:/usage/list";
+	}
 	
 
 }
