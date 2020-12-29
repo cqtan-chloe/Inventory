@@ -11,17 +11,12 @@ import team5.repo.StockTransactionRepo;
 
 @Service
 public class StockTransactionServiceImpl implements StockTransactionService {
-	
-	
+
 	@Autowired
 	StockTransactionRepo strepo;
 	
 	public void save(StockTransaction st) {
 		strepo.save(st);
-	}
-	
-	public void delete(StockTransaction st) {
-		strepo.delete(st);
 	}
 
 	@Override
@@ -34,5 +29,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		return strepo.findAll(); 
 	}
 	
-
+	public void delete(StockTransaction st) {
+		strepo.delete(st);
+	}
 }

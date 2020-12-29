@@ -1,12 +1,8 @@
 package team5.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Product;
 import team5.service.ProductService;
@@ -87,16 +82,6 @@ public class ProductController {
 		Product product = product_svc.findById(id);
 		product_svc.delete(product);
 		return "forward:/product/listproducts";
-	}
-	
-	@RequestMapping("/reorderreport")
-	public String showReorderReport(Model model) {
-		
-		List<Product> listProducts = product_svc.findAll();
-		model.addAttribute("products", listProducts);
-		model.addAttribute("supplier", "S1");
-		return "reorderReport";
-		
 	}
 
 }

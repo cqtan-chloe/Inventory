@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import team5.model.StockTransaction;
 import team5.model.UsageRecord;
-import team5.model.User;
-import team5.service.ProductService;
-import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
 import team5.service.SessionServiceImpl;
 import team5.service.UsageRecordService;
@@ -29,21 +25,14 @@ public class UsageRecordController {
 	UsageRecordService ur_svc;
 	
 	@Autowired
-	private ProductService product_svc;
-	
-	@Autowired
 	private SessionService session_svc;
-	
-	@Autowired
-	HttpSession session;		// not an interface. an object passed automatically by the framework 
-	
 
 	@Autowired 
-	public void setImplimentation(UsageRecordServiceImpl ur_svcimpl, ProductServiceImpl product_svcimpl, SessionServiceImpl session_svcimpl) {
+	public void setImplimentation(UsageRecordServiceImpl ur_svcimpl, SessionServiceImpl session_svcimpl) {
 		this.ur_svc = ur_svcimpl;
-		this.product_svc = product_svcimpl;
 		this.session_svc = session_svcimpl;
 	}
+	
 	
 	@RequestMapping(value = "/add")
 	public String addform(Model model) {

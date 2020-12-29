@@ -1,17 +1,11 @@
 package team5.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import team5.model.Product;
@@ -52,26 +46,9 @@ public class ProductServiceImpl implements ProductService {
         return prepo.findAll();
     }
 	
-	
 	@Override
 	public void delete(Product product) {
 		prepo.delete(product);
-		
 	}
-	
-	@Override
-	public Optional<Product> OptionalFindById(Long id) {
-		return prepo.findById(id);
-	}
-	/*
-	public Page<Product> listProducts(String keywords, int page,int size) {
-		Sort sort = Sort.by(Sort.Direction.ASC,"id");
-		Pageable pageable= PageRequest.of(page,size, sort);
-		System.out.println(keywords);
-		if(keywords != null) {
-			return prepo.search2(keywords,pageable);
-		}
-		return prepo.findAll(pageable);
-	}*/
 
 }

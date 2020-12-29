@@ -20,11 +20,6 @@ public class UsageRecordServiceImpl implements UsageRecordService {
 		urrepo.save(ur);
 	}
 	
-	//@Transactional
-	//public List<UsageRecord> checkTransectionHistory(long id ) {
-	//	return urepo.findUsageRecord(id);
-	//}
-	
 	@Transactional
 	public UsageRecord findById(Long id) {
 		return urrepo.findById(id).get();

@@ -1,8 +1,5 @@
-
 package team5.service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import team5.model.RoleType;
 import team5.model.User;
 import team5.repo.UserRepo;
 
@@ -30,22 +26,6 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findById(id).get();
 	}
 	
-	
-	@Override
-	public boolean updateUser(User user) {
-		User userCheck = userRepo.findById(user.getId()).get();
-		if (userCheck == null) {
-			return false;
-		}else {
-			userCheck.setUserName(user.getUserName());
-			userCheck.setPassword(user.getPassword());
-			userCheck.setRole(user.getRole());
-			userRepo.save(userCheck);
-			return true;
-		}
-	}
-
-
 	@Override
 	public User findByUsername(String userName) {
 		return userRepo.findByUserName(userName);
