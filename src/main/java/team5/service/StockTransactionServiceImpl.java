@@ -40,7 +40,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		Annotation a = arepo.save(new Annotation(user));
 		
 		UsageRecord ur;
-		if (id == -1) {ur = ur_svc.findById(id);} else {ur = null;}
+		if (id == -1) {ur = null;} else {ur = ur_svc.findById(id);}
 		
 		StockTransaction out = new StockTransaction(null, 0, a);	   // a default value. "restock" by default.  
 		
