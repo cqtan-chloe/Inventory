@@ -43,25 +43,30 @@ public class ProductController {
 	
 	@GetMapping("/add")
 	public String showProductForm(Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
 		model.addAttribute("product", new Product());
 		return "productform";
 	}
 	
 	
 	@GetMapping("/save")
-	public String saveProductForm(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult,
-			Model model) {
-		System.out.println(product.toString());
+	public String saveProductForm(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("product", product_svc.findAll());
 			return "productform";
 		}
+		
 		product_svc.save(product);
 		return "forward:/product/list";
 	}
 	
 	@GetMapping("/edit/{id}")
 	public String showEditForm(Model model, @PathVariable("id") Long id) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
 		model.addAttribute("product", product_svc.findById(id));
 		return "productform";
 	}
@@ -79,6 +84,8 @@ public class ProductController {
 	
 	@GetMapping("/delete/{id}")
 	public String deleteMethod(Model model, @PathVariable("id") Long id) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
 		Product product = product_svc.findById(id);
 		product_svc.delete(product);
 		return "forward:/product/listproducts";

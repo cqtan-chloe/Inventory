@@ -90,25 +90,5 @@ public class ProductTest {
 		st_repo.save(new StockTransaction(prepo.findById((long) 4).get(), 1, "return", a6));
 		st_repo.save(new StockTransaction(prepo.findById((long) 7).get(), 1, "return", a6));
 	}
-	/*
-	@Test
-	public void saveUsageRecord() throws ParseException {
-		Product first = productRepo.findById((long)4).get();
-		Product second = productRepo.findById((long)2).get();
-		Product third = productRepo.findById((long)3).get();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		Date fDate = formatter.parse("01-12-2020");
-		Date sDate = formatter.parse("03-12-2020");
-		Date tDate = formatter.parse("05-12-2020");
-		User admin1 = urepo.findById((long)1).get();
-		UsageRecord oneR = usageRepo.save(new UsageRecord("john","SAA1235", fDate, admin1));
-		UsageRecord secondR = usageRepo.save(new UsageRecord("Mary","SAB2345", sDate, admin1));
-		usageRepo.save(new UsageRecord("Peter","SAC3456", tDate, admin1));
-		st_repo.save(new StockTransaction(first,oneR,3));
-		st_repo.save(new StockTransaction(second,oneR,3));
-		st_repo.save(new StockTransaction(third,secondR,3));
-		st_repo.save(new StockTransaction(first,secondR,3));
-		st_repo.save(new StockTransaction(third,oneR,3));
-	}*/
 	
 }

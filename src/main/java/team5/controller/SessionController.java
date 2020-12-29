@@ -1,53 +1,46 @@
 package team5.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import team5.model.User;
 import team5.service.SessionService;
-import team5.service.UserService;
+import team5.service.SessionServiceImpl;
 
 @Controller
 @RequestMapping("/user")
 public class SessionController {
 
 	@Autowired
-	private UserService usvc;
+	private SessionService session_svc;
 	
 	@Autowired
-	private SessionService ssvc;
+	public void SetImplimentation(SessionServiceImpl session_svcimpl) {
+		this.session_svc = session_svcimpl;
+	}
 	
-	@Autowired
-	HttpSession session;		// not an interface. an object passed automatically by the framework 
-	
-	//everyone can login
 	@RequestMapping(path = "/login")
 	public String login(Model model) {
-		User u = new User();
-		model.addAttribute("user", u);
+
+		model.addAttribute("user", new User());
 		return "login";
 	}
 	
 	@GetMapping("/logout")
-	public ModelAndView logout() {
-		session.invalidate();
-		ModelAndView mv = new ModelAndView("redirect:/user/login");
-		return mv;
+	public String logout() {
+		session_svc.logout();
+		return "redirect:/user/login";
 	}
 	
 	@RequestMapping(path = "/authenticate")
 	public String authenticate(@ModelAttribute("user") User user, Model model) {
-		if(ssvc.authenticate(user)) 
+		if(session_svc.authenticate(user)) 
 		{
-			User u = usvc.findByUsername(user.getUserName());
-			session.setAttribute("user", u);
+			session_svc.setUser(user);
 			return "index";
 		}
 		else

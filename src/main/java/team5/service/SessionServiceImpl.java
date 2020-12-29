@@ -18,7 +18,7 @@ public class SessionServiceImpl implements SessionService {
 	UserRepo urepo;
 	
 	@Autowired
-	HttpSession session;		// not an interface. an object passed automatically by the framework 
+	HttpSession session;	
 	
 	public boolean authenticate(User user) {
 		User dbuser = urepo.findByUserName(user.getUserName());
@@ -31,6 +31,14 @@ public class SessionServiceImpl implements SessionService {
 		}
 	}
 	
+	public void logout() {
+		session.invalidate();
+	}
+	
+	public void setUser(User user) {
+		User u = urepo.findByUserName(user.getUserName());
+		session.setAttribute("user", u);
+	}
 	
 	public boolean isNotLoggedIn() {
 		User user = (User) session.getAttribute("user");

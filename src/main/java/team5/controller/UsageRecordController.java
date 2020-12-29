@@ -1,6 +1,5 @@
 package team5.controller;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +61,7 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/edit/{id}")
 	public String editForm(@PathVariable("id") Long id, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		UsageRecord ur = ur_svc.findById(id);
 		model.addAttribute("usage", ur);
@@ -70,6 +70,7 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSupplier(@PathVariable("id") Long id) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		ur_svc.delete(ur_svc.findById(id));
 		return "forward:/usage/list";
