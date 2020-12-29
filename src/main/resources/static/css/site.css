@@ -1,4 +1,4 @@
-﻿/* student-added CSS */
+/* student-added CSS */
 #mainframe {
     margin: auto;
     width: 100%;
@@ -81,4 +81,13 @@
     color: red;
     font-weight: bold;
     padding: 10px;
+}
+
+.btn {
+	border-radius: .25rem;
+    line-height: 1.2;
+}
+
+td .form-cell {
+	padding: 5px;
 }

@@ -5,7 +5,6 @@
 </head>
 
 <body>
-<header th:insert="layout/layout.html :: header"></header>
 <div th:replace="layout/layout.html :: menu" ></div>
 
 <div class="container">
@@ -13,6 +12,7 @@
 		<h2>Products</h2>
 		<h5>The products sold or available for use in the car repair shop.</h5>
 		
+		<br>
 		<form th:action="@{/product/list}" class="search">
 			Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
 				<input type="submit" value="Search" /> &nbsp; 
@@ -48,6 +48,5 @@
     </main>
 </div>
 
-<div th:replace="layout/layout.html :: footer"></div>
 </body>
 </html>

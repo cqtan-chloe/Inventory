@@ -3,79 +3,61 @@
 	<title>Stock Usage Form</title>
 </head>
 
+<style>
+form td {
+	padding: 7.5px;
+}
+</style>
+
 <body>
-<header th:insert="layout/layout.html :: header"></header>
 <div th:replace="layout/layout.html :: menu" ></div>
 
 <div class="container">
     <main role="main" class="pb-3">
-		<h3>Usage Form</h3>
+		<h3>Case Record Form</h3>
 		
 		<form action="#" th:object="${usage}" th:action="@{/usage/save}" method="post">
-			<table class="table table-sm">
+			<table>
 			<tr>
 			<td>
-			<fieldset>
-				<!--<input type="hidden" th:field="*{id}">  -->
-			</fieldset>
+				<input type="hidden" th:field="*{id}">
 			</td>
 			</tr>
 			
 			<tr>
+			<td>Customer Name</td>
 			<td>
-			Customer Name
-			</td>
-			<td>
-			<fieldset>
 				 <input type ="text" th:field="*{customerName}"/>
-			</fieldset>
 			</td>
 			</tr>
 			
 			<tr>
+			<td>Car Plate Number</td>
 			<td>
-			Car Plate Number
-			</td>
-			<td>
-			<fieldset>
 				 <input type ="text" th:field="*{carPlate}">
-			</fieldset>
 			</td>
 			</tr>
 			
 			<tr>
+			<td>Date</td>
 			<td>
-			Date
-			</td>
-			<td>
-			<fieldset>
 				 <input type="text" th:field="*{date}"
 					placeholder="dd-MM-yyyy"
 					th:text="${#dates.format(usage.date, 'dd-MM-yyyy')}" />
-			</fieldset>
 			</td>
 			</tr>
 			
 			<tr>
+			<td>Comments:</td>
 			<td>
-			Comments:
-			</td>
-			<td>
-			<fieldset>
 				<textarea name="comments" th:text="*{comments}"></textarea>
-			</fieldset>
 			</td>
 			</tr>
 			
 			<tr>
+			<td></td>
 			<td>
-			</td>
-			<td>
-			<fieldset>
-				<input type="submit" value="Save"/>
-				
-				<input type="reset" value="Reset"/>
-			</fieldset>	
+				<input type="submit" class="button" style="float: right;" value="Save"/>
 			</td>
 			</tr>
 			</table>
@@ -87,26 +69,26 @@
 			<table class="table table-sm">
 				<tr >
 					<th>Id</th>
-					<th>Date</th>
-					<th>UserId</th>
-					<th>ProductId</th>
-					<th>qtyChange</th>
+					<th>Datetime Created</th>
+					<th>Username</th>
+					<th>Product Name</th>
+					<th>Change In Quantity</th>
 					<th>Type</th>
 					<th></th>
 				</tr>
 				<tr th:each="txn:${usage.stockTranxList}" >
-					<td th:text=${txn.id}>Id</td>
-					<td th:text=${txn.getDate()}>Date</td>
-					<td th:text=${txn.getUserId()}>Id</td>
-					<td th:text=${txn.product.Id}>ProductId</td>
-					<!-- <td><input class="quantity" name="${txn.id}"+"-quantity" th:value=${txn.qtyChange} type="number" txnid="${txn.id}"></td> -->
-					<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
-					<td><a th:href="@{/stock/delete/}+${txn.id}">Delete</a></td>
+				<td th:text=${txn.id}>Id</td>
+				<td th:text=${txn.getDate()}>Datetime Created</td>
+				<td th:text=${txn.getUserName()}>Username</td>
+				<td th:text=${txn.product.getName()}>Product Name</td>
+				<td th:text=${txn.qtyChange}>Change In Quantity</td>
+				<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
+				<td><a th:href="@{/stock/edit/}+${txn.id}">Edit</a></td>
+				<td><a th:href="@{/stock/delete/}+${txn.id}">Delete</a></td>
 				</tr>
 			</table>
     </main>
 </div>
-	
-	<div th:replace="layout/layout.html :: footer"></div>
+
 </body>
 </html>

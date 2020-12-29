@@ -4,31 +4,35 @@
     <title>Login</title>
 </head>
 
+<style>
+td {
+	padding: 7.5px;
+}
+</style>
+
 <body>
-<header th:insert="layout/layout.html :: header"></header>
 <div th:replace="layout/layout.html :: menu" ></div>
 
 <div class="container">
     <main role="main" class="pb-3">
-		<h3>Login form</h3>
+		<h3>Login Form</h3>
 		
 		<form action="" th:object="${user}" th:action="@{/user/authenticate}" method="post">
-			<table class="table">
+			<table>
 				<tr>
-					<td class="form-control-from">Name:</td>
+					<td>Name</td>
 					<td><input type="text" th:field="*{userName}"><td/>
 				</tr>
 				<tr>
-					<td class="form-control-from">Password:</td>
+					<td>Password</td>
 					<td><input type="password" th:field="*{password}"><td/>
 				</tr>
-				<tr><td colspan="2"><button type="submit" class="button">Log In</button></td></tr>
+				<tr><td colspan="2"><button type="submit" class="button" style="float: right;">Log In</button></td></tr>
 			</table>	
 		</form>
     </main>
 </div>
 
-<div th:replace="layout/layout.html :: footer"></div>
 </body>
 </html>
 

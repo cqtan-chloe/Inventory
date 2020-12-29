@@ -3,9 +3,14 @@
  <head th:include="layout/layout.html :: headerFragment">
  	<title>Product Form</title>
 </head>
-<body>
 
-<header th:insert="layout/layout.html :: header"></header>
+<style>
+td {
+	padding: 7.5px;
+}
+</style>
+
+<body>
 <div th:replace="layout/layout.html :: menu" ></div>
 
 <div class="container">
@@ -13,9 +18,8 @@
     
 		<h3>Product Form</h3>
 	
-		<form action="" th:object="${product}" th:action="@{/product/save}"
-			method="get">	
-			<table class="table table-sm">
+		<form action="" th:object="${product}" th:action="@{/product/save}" method="post">	
+			<table >
 				<tr>
 					<td>
 						<input type="hidden" th:field="*{id}">
@@ -23,50 +27,50 @@
 				</tr>
 				
 				<tr>
-					<td>Name:</td>
+					<td>Name</td>
 					<td><input type="text" th:field="*{name}">
 					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p></td>
 				</tr>
 				<tr>
-					<td>Description:</td>
+					<td>Description</td>
 					<td><input type="text" th:field="*{description}"></td>
 				</tr>
 	
 				<tr>
-					<td>Original Price:</td>
+					<td>Original Price</td>
 					<td><input type="text" th:field="*{originalPrice}">
 				<p th:if="${#fields.hasErrors('originalPrice')}" th:errors="*{originalPrice}"></p></td>
 				</tr>
 				<tr>
-					<td>Category:</td>
+					<td>Category</td>
 					<td><input type="text" th:field="*{category}"></td>
 				</tr>
 	
 				<tr>
-					<td>Retail Price:</td>
+					<td>Retail Price</td>
 					<td><input type="text" th:field="*{priceFRetail}">
 				<p th:if="${#fields.hasErrors('priceFRetail')}" th:errors="*{priceFRetail}"></p></td>
 				</tr>
 	
 				<tr>
-					<td>Quantity:</td>
-					<td><input type="text" th:field="*{unit}">
-				<p th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></td>
+					<td>Quantity</td>
+					<td><input type="text" th:field="*{qty}">
+				<p th:if="${#fields.hasErrors('qty')}" th:errors="*{qty}"></td>
 				</tr>
 	
 				<tr>
-					<td>Record Level:</td>
+					<td>Record Level</td>
 					<td><input type="text" th:field="*{reorderLevel}">
 				<p th:if="${#fields.hasErrors('reorderLevel')}" th:errors="reorderLevel"></p></td>
 				</tr>
 				<tr>
-					<td>Minimum Reorder Level:</td>
+					<td>Minimum Reorder Level</td>
 					<td> <input type="text"
 					th:field="*{minReoderLevel}">
 					<p th:if="${#fields.hasErrors('minReoderLevel')}" th:errors="*{minReoderLevel}"></p></td>
 				</tr>
 				<tr>
-					<td  colspan="3"><button type="submit">Save</button></td>
+					<td colspan="3"><button type="submit" class="button" style="float: right;">Save</button></td>
 				</tr>
 				
 			</table>
@@ -75,6 +79,5 @@
     </main>
 </div>
 	
-<div th:replace="layout/layout.html :: footer"></div>
 </body>
 </html>
