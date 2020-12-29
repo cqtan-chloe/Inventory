@@ -132,9 +132,6 @@ public class UsageRecord { // extends Annotation {
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-
-
-
 }
 
 	

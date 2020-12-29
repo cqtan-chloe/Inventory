@@ -42,9 +42,8 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		UsageRecord ur;
 		if (id == -1) {ur = null;} else {ur = ur_svc.findById(id);}
 		
-		StockTransaction out = new StockTransaction(null, 0, a);	   // a default value. "restock" by default.  
+		StockTransaction out = new StockTransaction(null, 0, a);	   // "restock" by default. type == "restock" for this params combo.
 		
-		if (type == "restock") out = new StockTransaction(null, 0, a); // type == "restock" for this params combo
 		if (type == "use") out = new StockTransaction(null, ur, 0, a); // type == "use" for this params combo
 		if (type == "return") out = new StockTransaction(null, 0, "return", a);
 		

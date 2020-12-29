@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
     public List<Product> searchByKeyword(String keyword) {
-        if (keyword != null) {
+        if (keyword != null & keyword != "") {
             return prepo.search(keyword);
         }
         return prepo.findAll();

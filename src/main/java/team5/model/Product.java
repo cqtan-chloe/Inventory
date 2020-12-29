@@ -67,15 +67,6 @@ public class Product {
 		this.minReoderLevel = minReoderLevel;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description
-				+ ", originalPrice=" + originalPrice + ", category=" + category
-				+ ", priceFRetail=" + priceFRetail + ", reorderLevel=" 
-				+ reorderLevel + ", minReoderLevel=" + minReoderLevel + "]";
-	}
-
-
 	public long getId() {
 		return id;
 	}

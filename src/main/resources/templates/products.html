@@ -15,9 +15,8 @@
 		
 		<br>
 		<form th:action="@{/product/list}" class="search">
-			Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
-				<input type="submit" value="Search" /> &nbsp; 
-				<input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+				<input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" /> &nbsp;
+				<input type="submit" value="Search" />
 		</form>
 		
 		<div style="margin-top: 2%; margin-bottom: 2%; text-align: right;">

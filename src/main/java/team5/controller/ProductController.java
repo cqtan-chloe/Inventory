@@ -1,6 +1,7 @@
 package team5.controller;
 
 import javax.validation.Valid;
+import org.springframework.data.repository.query.Param;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,10 +76,10 @@ public class ProductController {
 	
 	
 	@RequestMapping(value = "/list")
-	public String list(Model model) {
+	public String list(Model model, @Param("keyword") String keyword) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		model.addAttribute("products",product_svc.findAll());
+		model.addAttribute("products",product_svc.searchByKeyword(keyword));
 		model.addAttribute("hasPermission",session_svc.hasPermission());
 		return "products";
 	}
