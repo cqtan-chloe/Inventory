@@ -1,27 +1,15 @@
 package team5.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Annotation;
 import team5.model.Product;
@@ -95,6 +83,16 @@ public class StockTransactionController {
 		return "stockTransactionForm";
 	}
 	
+	@RequestMapping(value = "/add-usage-{id}")
+	public String addUsage(@PathVariable("id") Long id, Model model) {
+		
+		User user = (User) session.getAttribute("user");
+		Annotation a = arepo.save(new Annotation(user));
+		UsageRecord ur = ur_svc.findById(id);
+		model.addAttribute("txn", new StockTransaction(null, ur, 0, a));  // type == "use" for this params combo
+		return "stockTransactionForm";
+	}
+	
 	@RequestMapping(value = "/add-return")
 	public String addRetrun(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
@@ -115,7 +113,7 @@ public class StockTransactionController {
 	}
 	
 	@RequestMapping(value = "/save")
-	public String saveSupplier(@ModelAttribute("txn") @Valid StockTransaction txn,
+	public String saveTxn(@ModelAttribute("txn") @Valid StockTransaction txn,
 			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) return "stockTransactionForm";
 		
@@ -127,21 +125,19 @@ public class StockTransactionController {
 		return "forward:/stock/list";
 	}
 	
-	@RequestMapping(value = "/saveX")
-	public String saveX(@ModelAttribute("usage") @Valid UsageRecord usage,
+	@RequestMapping(value = "/save-{id}")
+	public String saveTxn(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn,
 			BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) return "stock-usage-form";
+		if (bindingResult.hasErrors()) return "stockTransactionForm";
 		
-		for (StockTransaction txn : usage.getStockTranxList())
-		{
-			Product p = product_svc.findById(txn.getProduct().getId());
-			p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());
-			
-			st_svc.save(txn);
-			product_svc.save(p);
-		}
-		return "forward:/usage/list";
+		Product p = product_svc.findById(txn.getProduct().getId());
+		p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());
+		
+		st_svc.save(txn);
+		product_svc.save(p);
+		return "forward:/usage/edit/{id}"; // id is the UsageRecord Id
 	}
+	
 	
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSupplier(@PathVariable("id") Long id) {

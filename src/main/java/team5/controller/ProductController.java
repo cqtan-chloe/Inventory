@@ -62,7 +62,7 @@ public class ProductController {
 			return "productform";
 		}
 		product_svc.save(product);
-		return "forward:/product/listproducts";
+		return "forward:/product/list";
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -76,7 +76,7 @@ public class ProductController {
 	public String list(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		model.addAttribute("product",product_svc.findAll());
+		model.addAttribute("products",product_svc.findAll());
 		return "products";
 	}
 
