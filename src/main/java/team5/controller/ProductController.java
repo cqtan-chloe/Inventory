@@ -44,6 +44,7 @@ public class ProductController {
 	@GetMapping("/add")
 	public String showProductForm(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("product", new Product());
 		return "productform";
@@ -55,7 +56,7 @@ public class ProductController {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("product", product_svc.findAll());
+			model.addAttribute("product", product);
 			return "productform";
 		}
 		
@@ -66,6 +67,7 @@ public class ProductController {
 	@GetMapping("/edit/{id}")
 	public String showEditForm(Model model, @PathVariable("id") Long id) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		model.addAttribute("product", product_svc.findById(id));
 		return "productform";
@@ -85,6 +87,7 @@ public class ProductController {
 	@GetMapping("/delete/{id}")
 	public String deleteMethod(Model model, @PathVariable("id") Long id) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (session_svc.hasNoPermission()) return "nopermission";
 		
 		Product product = product_svc.findById(id);
 		product_svc.delete(product);

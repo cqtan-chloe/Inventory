@@ -44,7 +44,11 @@ public class UsageRecordController {
 	@RequestMapping(value = "/save")
     public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		if(bindingResult.hasErrors()) return "stock-usage-form";
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("usage", usagerecord);
+			return "stock-usage-form";
+		}
 		
 		ur_svc.save(usagerecord);
         return "stock-usage-list";

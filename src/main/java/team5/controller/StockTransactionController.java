@@ -61,7 +61,7 @@ public class StockTransactionController {
 	}
 	
 	@RequestMapping(value = "/add-return")
-	public String addRetrun(Model model) {
+	public String addReturn(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		StockTransaction st = st_svc.makeNewTxn("return", -1);
@@ -89,7 +89,12 @@ public class StockTransactionController {
 	
 	@RequestMapping(value = "/save")
 	public String saveTxn(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) return "stockTransactionForm";
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("txn", txn);
+			return "stockTransactionForm";
+		}
 		
 		st_svc.changeProductQty(txn);
 		st_svc.save(txn);
@@ -99,7 +104,11 @@ public class StockTransactionController {
 	@RequestMapping(value = "/save-{id}")
 	public String saveTxn(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		if (bindingResult.hasErrors()) return "stockTransactionForm";
+	
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("txn", txn);
+			return "stockTransactionForm";
+		}
 		
 		st_svc.changeProductQty(txn);
 		st_svc.save(txn);
