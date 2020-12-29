@@ -81,8 +81,9 @@
 			</table>
 		</form>
 		
-			<span class="btn btn-secondary"><a th:href="@{/stock/add-usage-}+${usage.id}" style="color: white;">New Usage Entry (for this record)</a></span>
-		
+		<div style="margin-top: 2%; margin-bottom: 2%; text-align: right;">
+			<span class="btn btn-light"><a th:href="@{/stock/add-usage-}+${usage.id}">New Usage Entry (for this record)</a></span>
+		</div>
 			<table class="table table-sm">
 				<tr >
 					<th>Id</th>

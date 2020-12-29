@@ -13,9 +13,11 @@
    		<h2>Stock Transaction History</h2>
    		<h5>The series of changes in made to product quantities.</h5>
 	
-		<span class="btn btn-secondary"><a th:href="@{/stock/add-restock}" style="color: white;">New Restock Entry</a></span>
-		<span class="btn btn-secondary"><a th:href="@{/stock/add-restock}" style="color: white;">New Usage Entry</a></span>
-		<span class="btn btn-secondary"><a th:href="@{/stock/add-restock}" style="color: white;">New Return Entry</a></span>
+		<div style="margin-top: 2%; margin-bottom: 2%; text-align: right;">
+			<span class="btn btn-light"><a th:href="@{/stock/add-restock}">New Restock Entry</a></span>
+			<span class="btn btn-light"><a th:href="@{/stock/add-restock}">New Usage Entry</a></span>
+			<span class="btn btn-light"><a th:href="@{/stock/add-restock}">New Return Entry</a></span>
+		</div>
 		
 		<table class="table table-sm">
 			<tr >
