@@ -9,16 +9,18 @@
 
 <div class="container">
     <main role="main" class="pb-3">
-	    <h3>UsageRecords List</h3>
+   	    <h2>Case Records</h2>
+   	    <h5>The repair cases taken on by the car repair shop. <br>
+   	    	Annotate some stock transaction records with the reason the items were used.</h5>
+   	    				 
 	    <a href="AddUsageRecord.html" th:href="@{/usage/add}">New UsageRecord</a>
-	
-	    <h2>UsageRecords List</h2>
+
 	    <table class="table table-sm">
 	        <tr >
-	            <th>UsageRecord Id</th>
-	            <th>UsageRecord CustomerName</th>
-	            <th>UsageRecord CarPlate</th>
-	            <th>UsageRecord Date</th>
+	            <th>Id</th>
+	            <th>Customer Name</th>
+	            <th>CarPlate Number</th>
+	            <th>Datetime Created</th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -26,9 +28,9 @@
 	        </tr>
 	        <tr th:each="usagerecord:${usage}" >
 	            <td th:text=${usagerecord.id}>Id</td>
-	            <td th:text="${usagerecord.customerName}">UsageRecord CustomerName</td>
-	            <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
-	            <td th:text=${usagerecord.date}>UsageRecord Date</td>
+	            <td th:text="${usagerecord.customerName}">Customer Name</td>
+	            <td th:text=${usagerecord.carPlate}>Number</td>
+	            <td th:text=${usagerecord.date}>Datetime Created</td>
 				<td><a th:href="@{/usage/edit/}+${usagerecord.id}">Edit</a></td>
 				<td><a th:href="@{/usage/delete/}+${usagerecord.id}">Delete</a></td>
 	        </tr>

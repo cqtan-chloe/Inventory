@@ -10,32 +10,35 @@
 
 <div class="container">
     <main role="main" class="pb-3">
-		<h3>Product Listing</h3>
+		<h2>Products</h2>
+		<h5>The products sold or available for use in the car repair shop.</h5>
+		
 		<form th:action="@{/product/list}" class="search">
 			Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
 				<input type="submit" value="Search" /> &nbsp; 
 				<input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
 		</form>
+		<br>
 		<table class="table table-sm">
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
-				<th>Description</th>
+				<th style="width: 40%;">Description</th>
 				<th>Category</th>
 				<th>Retail Price</th>
 				<th>Quantity</th>
-				<th th:if="${hasPermission}">Edit Link</th>
-				<th th:if="${hasPermission}">Delete Link</th>			
+				<th th:if="${hasPermission}"></th>
+				<th th:if="${hasPermission}"></th>			
 			</tr>
 			<tr th:each="product:${products}">
 				<td th:text="${product.id}">ID</td>
 				<td th:text="${product.name}">ID</td>
-				<td th:text="${product.description}">ID</td>
+				<td style="width: 40%;" th:text="${product.description}">ID</td>
 				<td th:text="${product.category}">ID</td>
 				<td th:text="${product.priceFRetail}">ID</td>
 				<td th:text="${product.qty}">ID</td>
-				<td th:if="${hasPermission}"><a href="EditProduct.html" th:href="@{/product/edit/}+${product.id}" th:utext="#{products.page.edit}">Edit</a></td>
-				<td th:if="${hasPermission}"><a href="DeleteProduct.html" th:href="@{/product/delete/}+${product.id}" th:utext="#{products.page.delete}">Delete</a></td>
+				<td th:if="${hasPermission}"><a th:href="@{/product/edit/}+${product.id}">Edit</a></td>
+				<td th:if="${hasPermission}"><a th:href="@{/product/delete/}+${product.id}">Delete</a></td>
 			</tr>
 		</table>
     </main>

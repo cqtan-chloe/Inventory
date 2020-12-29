@@ -49,12 +49,11 @@ public class SessionServiceImpl implements SessionService {
 	}
 	
 	public boolean hasPermission() {
-		/*User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		if (user.getRole() == RoleType.ADMIN)
 			return true;
-		else */
-			//return false;
-		return true;
+		else 
+			return false;
 	}
 }
 

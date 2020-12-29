@@ -10,29 +10,30 @@
 
 <div class="container">
     <main role="main" class="pb-3">
-		<h3>StockTransaction List</h3>
+   		<h2>Stock Transaction History</h2>
+   		<h5>The series of changes in made to product quantities.</h5>
+   		
 		<a th:href="@{/stock/add-restock}">New Restock Entry</a>
 		<a th:href="@{/stock/add-usage}">New Usage Entry</a>
 		<a th:href="@{/stock/add-return}">New Return Entry</a>
 	
-		<h2>StockTransaction List</h2>
 		<table class="table table-sm">
 			<tr >
 				<th>Id</th>
-				<th>Date</th>
-				<th>UserId</th>
-				<th>ProductId</th>
-				<th>qtyChange</th>
+				<th>Datetime Created</th>
+				<th>Username</th>
+				<th>Product Name</th>
+				<th>Change In Quantity</th>
 				<th>Type</th>
 				<th></th>
 				<th></th>
 			</tr>
 			<tr th:each="txn:${txns}" >
 				<td th:text=${txn.id}>Id</td>
-				<td th:text=${txn.getDate()}>Date</td>
-				<td th:text=${txn.getUserId()}>Id</td>
-				<td th:text=${txn.product.Id}>ProductId</td>
-				<td th:text=${txn.qtyChange}>qtyChange</td>
+				<td th:text=${txn.getDate()}>Datetime Created</td>
+				<td th:text=${txn.getUserName()}>Username</td>
+				<td th:text=${txn.product.getName()}>Product Name</td>
+				<td th:text=${txn.qtyChange}>Change In Quantity</td>
 				<td th:if="${txn.type.equals('restock')}" class="btn btn-success" th:text=${txn.type}>Type</td>
 				<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
 				<td th:if="${txn.type.equals('return')}" class="btn btn-danger" th:text=${txn.type}>Type</td>

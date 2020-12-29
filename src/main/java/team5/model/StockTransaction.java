@@ -132,4 +132,8 @@ public class StockTransaction {
 		return annotation.getUser().getId();
 	}
 	
+	public String getUserName(){
+		return annotation.getUser().getUserName();
+	}
+	
 }

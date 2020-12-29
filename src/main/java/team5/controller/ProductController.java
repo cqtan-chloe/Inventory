@@ -77,6 +77,7 @@ public class ProductController {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("products",product_svc.findAll());
+		model.addAttribute("hasPermission",session_svc.hasPermission());
 		return "products";
 	}
 
