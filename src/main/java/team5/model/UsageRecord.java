@@ -49,23 +49,14 @@ public class UsageRecord { // extends Annotation {
 	@Transient
 	HttpSession session;
 
-	public UsageRecord(String customerName, String carPlate, String comments) {
+	public UsageRecord(String customerName, String carPlate, String comments, User user) {
 		super();
 		this.customerName = customerName;
 		this.carPlate = carPlate;
 		this.comments = comments;
 		
 		this.date = new Date();
-		this.user = (User) session.getAttribute("user");
-	}
-	
-	public UsageRecord(String customerName, String carPlate) {
-		super();
-		this.customerName = customerName;
-		this.carPlate = carPlate;
-		
-		this.date = new Date();
-		this.user = (User) session.getAttribute("user");
+		this.user = user;
 	}
 	
 	public UsageRecord(String customerName, String carPlate, User user) {

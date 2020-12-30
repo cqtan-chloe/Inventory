@@ -1,9 +1,5 @@
 package team5.test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,14 +40,14 @@ public class ProductTest {
 	
 	@Test
 	public void saveProduct() {
-		prepo.save(new Product("Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.", 200,"Category A", 2000, 2, 1, 1));
-		prepo.save(new Product("Large Table Clamp","Can attach to tables, shelves, or other boards up to 10 cm thick.", 200,"Category B", 2500 , 3, 1, 1));
-		prepo.save(new Product("Tension Protractor","ME-6855", 500,"Category C", 600, 14, 1, 4));
-		prepo.save(new Product("Jeep wheel","The best wheel for jeep.", 200,"Category A", 2000, 19, 5, 2));
-		prepo.save(new Product("Tyre","ME-6855", 500,"Category C", 8000, 18, 10, 4));
-		prepo.save(new Product("Suspension","ME-6855", 500,"Category B", 5000, 15, 10, 4));
-		prepo.save(new Product("Pedal","ME-6855", 500,"Category B", 5000, 6, 10, 4));
-		prepo.save(new Product("Engine","ME-6855", 500,"Category B", 5000, 10, 10, 4));
+		prepo.save(new Product("Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.", 20,"Category A", 100, 2, 1, 1));
+		prepo.save(new Product("Large Table Clamp","Can attach to tables, shelves, or other boards up to 10 cm thick.", 20,"Category B", 150 , 3, 1, 1));
+		prepo.save(new Product("Tension Protractor","ME-6855", 50,"Category C", 60, 14, 1, 4));
+		prepo.save(new Product("Jeep wheel","The best wheel for jeep.", 20,"Category A", 200, 19, 5, 2));
+		prepo.save(new Product("Tyre","ME-6855", 50,"Category C", 60, 18, 10, 4));
+		prepo.save(new Product("Suspension","ME-6855", 50,"Category B", 70, 15, 10, 4));
+		prepo.save(new Product("Pedal","ME-6855", 50,"Category B", 80, 6, 10, 4));
+		prepo.save(new Product("Engine","ME-6855", 50,"Category B", 90, 10, 10, 4));
 		
 	}
 	

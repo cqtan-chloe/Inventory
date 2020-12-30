@@ -33,6 +33,9 @@ public class StockTransactionServiceImpl implements StockTransactionService {
     
     @Autowired 
     HttpSession session;
+    
+	@Autowired
+	private EmailService emailService;
 	
 	public StockTransaction makeNewTxn(String type, long id) {
 		
@@ -42,17 +45,29 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		UsageRecord ur;
 		if (id == -1) {ur = null;} else {ur = ur_svc.findById(id);}
 		
-		StockTransaction out = new StockTransaction(null, 0, a);	   // "restock" by default. type == "restock" for this params combo.
+		StockTransaction out = new StockTransaction(null, 1, a);	   // "restock" by default. type == "restock" for this params combo.
 		
-		if (type == "use") out = new StockTransaction(null, ur, 0, a); // type == "use" for this params combo
-		if (type == "return") out = new StockTransaction(null, 0, "return", a);
+		if (type == "use") out = new StockTransaction(null, ur, 1, a); // type == "use" for this params combo
+		if (type == "return") out = new StockTransaction(null, 1, "return", a);
 		
 		return out;
 	}
 	
-	public void changeProductQty(StockTransaction txn) {
+	public void save(StockTransaction txn) {
+
+		if (txn.getType().equals("use")) {
+			if (txn.getUsageRecord().getId() == 0) {txn.setUsageRecord(null);}
+		}
+		
+		strepo.save(txn);
+		
 		Product p = product_svc.findById(txn.getProduct().getId());
 		
+		this.changeProductQty(txn, p);
+		this.notifyLowStock(p);
+	}
+	
+	public void changeProductQty(StockTransaction txn, Product p) {
 		// type of stock transaction is defined by developer 
 		// user cannot define new types of transactions 
 		if (txn.getType().equals("use")| txn.getType().equals("return"))
@@ -63,8 +78,13 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		product_svc.save(p);
 	}
 	
-	public void save(StockTransaction st) {
-		strepo.save(st);
+	public void notifyLowStock(Product p) {
+		String s = "Product: " + p.getName() + "\n" +  
+					"Qty: " + p.getQty() + "\n" + 
+					"MinReorderLevel: " +  p.getMinReoderLevel() + "\n";
+		
+		if (p.getQty() < p.getMinReoderLevel())
+			emailService.sendMail("c.q.tan94@gmail.com", "Notification to restock", s);
 	}
 
 	@Override

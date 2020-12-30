@@ -96,7 +96,6 @@ public class StockTransactionController {
 			return "stockTransactionForm";
 		}
 		
-		st_svc.changeProductQty(txn);
 		st_svc.save(txn);
 		return "forward:/stock/list";
 	}
@@ -110,7 +109,6 @@ public class StockTransactionController {
 			return "stockTransactionForm";
 		}
 		
-		st_svc.changeProductQty(txn);
 		st_svc.save(txn);
 		return "forward:/usage/edit/{id}"; // id is the UsageRecord Id
 	}

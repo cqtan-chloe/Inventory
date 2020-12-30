@@ -20,7 +20,7 @@
 		</form>
 		
 		<div style="margin-top: 2%; margin-bottom: 2%; text-align: right;">
-			<span class="btn btn-light"><a th:href="@{/product/add}">New Product</a></span>
+			<span class="btn btn-light" th:if="${hasPermission}"><a th:href="@{/product/add}">New Product</a></span>
 		</div>
 		
 		<table class="table table-sm">
