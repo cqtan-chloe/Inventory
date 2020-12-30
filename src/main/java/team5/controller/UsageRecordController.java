@@ -38,7 +38,7 @@ public class UsageRecordController {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("usage",new UsageRecord());
-		return "stock-usage-form";
+		return "usageRecordForm";
 	}
 	
 	@RequestMapping(value = "/save")
@@ -47,11 +47,11 @@ public class UsageRecordController {
 		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("usage", usagerecord);
-			return "stock-usage-form";
+			return "usageRecordForm";
 		}
 		
 		ur_svc.save(usagerecord);
-        return "stock-usage-list";
+        return "usageRecord";
     }
 	
 	@RequestMapping(value = "/list")
@@ -59,7 +59,7 @@ public class UsageRecordController {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("usage", ur_svc.findAll());
-		return "stock-usage-list";
+		return "usageRecord";
 	}
 	
 	
@@ -69,7 +69,7 @@ public class UsageRecordController {
 		
 		UsageRecord ur = ur_svc.findById(id);
 		model.addAttribute("usage", ur);
-		return "stock-usage-form";
+		return "usageRecordForm";
 	}
 	
 	@RequestMapping(value = "/delete/{id}")

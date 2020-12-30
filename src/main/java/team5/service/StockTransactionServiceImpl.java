@@ -55,7 +55,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		
 		// type of stock transaction is defined by developer 
 		// user cannot define new types of transactions 
-		if (txn.getType() == "use" | txn.getType() == "return")
+		if (txn.getType().equals("use")| txn.getType().equals("return"))
 			p.setQty(p.getQty() + txn.getPrev_val() - txn.getQtyChange());
 		else 
 			p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());	
