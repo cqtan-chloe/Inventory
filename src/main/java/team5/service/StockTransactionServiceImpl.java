@@ -52,7 +52,13 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	
 	public void changeProductQty(StockTransaction txn) {
 		Product p = product_svc.findById(txn.getProduct().getId());
-		p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());
+		
+		// type of stock transaction is defined by developer 
+		// user cannot define new types of transactions 
+		if (txn.getType() == "use" | txn.getType() == "return")
+			p.setQty(p.getQty() + txn.getPrev_val() - txn.getQtyChange());
+		else 
+			p.setQty(p.getQty() - txn.getPrev_val() + txn.getQtyChange());	
 		
 		product_svc.save(p);
 	}

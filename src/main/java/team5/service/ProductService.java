@@ -7,5 +7,5 @@ import team5.model.Product;
 public interface ProductService extends IService<Product> {
 	
 	public List<Product> searchByKeyword(String keyword);
-	Product findByName(String name);
+	public Product findByName(String name);
 }
