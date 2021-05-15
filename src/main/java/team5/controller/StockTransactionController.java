@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import team5.model.StockTransaction;
+import team5.model.TxnType;
 import team5.service.SessionService;
 import team5.service.SessionServiceImpl;
 import team5.service.StockTransactionService;
@@ -32,45 +33,28 @@ public class StockTransactionController {
     	this.session_svc = session_svcimpl;
     }
     
+	// restock, use, return 
+//	@RequestMapping(value = "/add")
+//	public String create(@PathVariable("id") Long usagerecord_id, TxnType txntype, Model model) {
+//		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+//		
+//		StockTransaction st = st_svc.makeNewTxn(txntype, usagerecord_id);	// usagerecord_id == null if not specified 
+//		model.addAttribute("txn", st);
+//		return "stockTransactionForm";
+//	}
 	
-	@RequestMapping(value = "/add-restock")
-	public String addRestock(Model model) {
+	@RequestMapping(value = "/add")
+	// public String create(@PathVariable("id") Long usagerecord_id, TxnType txntype, Model model) {
+	public String create(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		StockTransaction st = st_svc.makeNewTxn("restock", -1);
-		model.addAttribute("txn", st); 
-		return "stockTransactionForm";
-	}
-	
-	@RequestMapping(value = "/add-usage")
-	public String addUsage(Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-
-		StockTransaction st = st_svc.makeNewTxn("use", -1);
-		model.addAttribute("txn", st);
-		return "stockTransactionForm";
-	}
-	
-	@RequestMapping(value = "/add-usage-{id}")
-	public String addUsage(@PathVariable("id") Long id, Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-		StockTransaction st = st_svc.makeNewTxn("use", id);
-		model.addAttribute("txn", st);
-		return "stockTransactionForm";
-	}
-	
-	@RequestMapping(value = "/add-return")
-	public String addReturn(Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-		StockTransaction st = st_svc.makeNewTxn("return", -1);
-		model.addAttribute("txn", st);
+		Long usagerecord_id = (long) 1;
+		model.addAttribute("txn", st_svc.createNewTxn(usagerecord_id));
 		return "stockTransactionForm";
 	}
 	
 	@RequestMapping(value = "/list")
-	public String list(Model model) {
+	public String readAll(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 
 		model.addAttribute("txns", st_svc.findAll());
@@ -78,47 +62,31 @@ public class StockTransactionController {
 	}
 	
 	@RequestMapping(value = "/edit/{id}")
-	public String editForm(@PathVariable("id") Long id, Model model) {
+	public String update(@PathVariable("id") Long id, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		StockTransaction txn = st_svc.findById(id);
-		txn.setPrev_val(txn.getQtyChange());
-		model.addAttribute("txn", txn);
+		model.addAttribute("txn", st_svc.findById(id));
 		return "stockTransactionForm";
 	}
 	
+	
 	@RequestMapping(value = "/save")
-	public String saveTxn(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
+	//public String save(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
+	public String save(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("txn", txn);
-			return "stockTransactionForm";
-		}
+		if (bindingResult.hasErrors()) { model.addAttribute("txn", txn); return "stockTransactionForm"; }
 		
 		st_svc.save(txn);
+		//return "forward:/usage/edit/{id}"; // id is the UsageRecord Id
 		return "forward:/stock/list";
-	}
-	
-	@RequestMapping(value = "/save-{id}")
-	public String saveTxn(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-	
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("txn", txn);
-			return "stockTransactionForm";
-		}
-		
-		st_svc.save(txn);
-		return "forward:/usage/edit/{id}"; // id is the UsageRecord Id
 	}
 	
 	
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteSupplier(@PathVariable("id") Long id) {
+	public String delete(@PathVariable("id") Long id) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		st_svc.delete(st_svc.findById(id));
+		st_svc.deleteById(id);
 		return "forward:/stock/list";
 	}
 

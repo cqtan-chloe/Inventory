@@ -30,8 +30,9 @@ public class UsageRecordServiceImpl implements UsageRecordService {
 		return urrepo.findAll();
 	}
 	
-	public void delete(UsageRecord ur) {
-		urrepo.delete(ur);
+	@Override
+	public void deleteById(Long id) {
+		urrepo.deleteById(id);
 	}
 
 }

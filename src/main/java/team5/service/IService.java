@@ -14,5 +14,5 @@ public interface IService<T> {
 	//public T findByName(String name);
 	
 	// Delete 
-	public void delete(T x);
+	public void deleteById(Long id);
 }

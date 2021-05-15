@@ -1,8 +1,5 @@
 package team5.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.validation.Valid;
 import org.springframework.data.repository.query.Param;
 
@@ -47,7 +44,7 @@ public class ProductController {
 	
 	
 	@RequestMapping("/add")
-	public String showProductForm(Model model) {
+	public String create(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (session_svc.hasNoPermission()) return "nopermission";
 		
@@ -55,22 +52,18 @@ public class ProductController {
 		return "productform";
 	}
 	
-	
-	@PostMapping("/save")
-	public String saveProductForm(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, Model model) {
+	@RequestMapping(value = "/list")
+	public String readAll(Model model, @Param("keyword") String keyword) {	// keyword is null if not specified
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("product", product);
-			return "productform";
-		}
-		
-		product_svc.save(product);
-		return "forward:/product/list";
+		model.addAttribute("products",product_svc.find_withfilter(keyword));
+		model.addAttribute("hasPermission",session_svc.hasPermission());
+		return "products";
 	}
+
 	
 	@GetMapping("/edit/{id}")
-	public String showEditForm(Model model, @PathVariable("id") Long id) {
+	public String update(Model model, @PathVariable("id") Long id) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (session_svc.hasNoPermission()) return "nopermission";
 		
@@ -78,24 +71,22 @@ public class ProductController {
 		return "productform";
 	}
 	
-	
-	@RequestMapping(value = "/list")
-	public String list(Model model, @Param("keyword") String keyword) {
+	@PostMapping("/save")
+	public String save(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (bindingResult.hasErrors()) { model.addAttribute("product", product); return "productform"; }
 		
-		model.addAttribute("products",product_svc.searchByKeyword(keyword));
-		model.addAttribute("hasPermission",session_svc.hasPermission());
-		return "products";
+		product_svc.save(product);
+		return "forward:/product/list";
 	}
 	
 
 	@GetMapping("/delete/{id}")
-	public String deleteMethod(Model model, @PathVariable("id") Long id) {
+	public String delete(Model model, @PathVariable("id") Long id) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (session_svc.hasNoPermission()) return "nopermission";
 		
-		Product product = product_svc.findById(id);
-		product_svc.delete(product);
+		product_svc.deleteById(id);
 		return "forward:/product/list";
 	}
 

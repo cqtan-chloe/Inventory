@@ -14,9 +14,7 @@
    		<h5>The series of changes made to product quantities.</h5>
 	
 		<div style="margin-top: 2%; margin-bottom: 2%; text-align: right;">
-			<span class="btn btn-light"><a th:href="@{/stock/add-restock}">New Restock Entry</a></span>
-			<span class="btn btn-light"><a th:href="@{/stock/add-usage}">New Usage Entry</a></span>
-			<span class="btn btn-light"><a th:href="@{/stock/add-return}">New Return Entry</a></span>
+			<span class="btn btn-light"><a th:href="@{/stock/add}">New Stock Transaction Entry</a></span>
 		</div>
 		
 		<table class="table table-sm">
@@ -36,9 +34,9 @@
 				<td th:text=${txn.getUserName()}>Username</td>
 				<td th:text=${txn.product.getName()}>Product Name</td>
 				<td th:text=${txn.qtyChange}>Change In Quantity</td>
-				<td th:if="${txn.type.equals('restock')}" class="btn btn-success" th:text=${txn.type}>Type</td>
+				<!-- <td th:if="${txn.type.equals('restock')}" class="btn btn-success" th:text=${txn.type}>Type</td>
 				<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
-				<td th:if="${txn.type.equals('return')}" class="btn btn-danger" th:text=${txn.type}>Type</td>
+				<td th:if="${txn.type.equals('return')}" class="btn btn-danger" th:text=${txn.type}>Type</td> -->
 				<td><a th:href="@{/stock/edit/}+${txn.id}">Edit</a></td>
 				<td><a th:href="@{/stock/delete/}+${txn.id}">Delete</a></td>
 			</tr>

@@ -1,7 +1,6 @@
 package team5.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -29,26 +28,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product findByName(String name) {
-		return prepo.findByName(name).get(0);
-	}
-	
-	@Override
 	public List<Product> findAll(){
 		return prepo.findAll(); 
 	}
 	
-	@Override
-    public List<Product> searchByKeyword(String keyword) {
-        if (keyword != null & keyword != "") {
-            return prepo.search(keyword);
-        }
-        return prepo.findAll();
+	public List<Product> find_withfilter(String keyword) {       
+		if (keyword == null) keyword = "";
+		
+		return prepo.find_withfilter1(keyword);
     }
 	
 	@Override
-	public void delete(Product product) {
-		prepo.delete(product);
+	public void deleteById(Long id) {
+		prepo.deleteById(id);
 	}
 
 }

@@ -28,32 +28,33 @@ public class StockTransaction {
 	
 	private long qtyChange;	// absolute value of quantity change 
 	
-	private String type;	// a hidden field. "restock"(+) and "use"(-) only
+	private TxnType txntype;	
 	
 	@Transient
 	private long prev_val;	// absolute value of quantity change 
 	
+
 	public StockTransaction() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-
-
+	
 	// combination of parameters means that stock is withdrawn
 	public StockTransaction(Product product, UsageRecord usageRecord, long qtyChange, Annotation a) {
 		super();
 		this.product = product;
 		this.usageRecord = usageRecord;
 		this.qtyChange = qtyChange;
-		this.type = "use";
+		this.txntype = TxnType.USE;
 		this.annotation = a;
 	}
 	
 	// combination of parameters means that stock is returned to supplier
-	public StockTransaction(Product product, long qtyChange, String type, Annotation a) {
+	public StockTransaction(Product product, long qtyChange, TxnType type, Annotation a) {
 		super();
 		this.product = product;
 		this.qtyChange = qtyChange;
-		this.type = type;
+		this.txntype = type;
 		this.annotation = a;
 	}
 
@@ -63,7 +64,17 @@ public class StockTransaction {
 		super();
 		this.product = product;
 		this.qtyChange = qtyChange;
-		this.type = "restock";
+		this.txntype = TxnType.RESTOCK;
+		this.annotation = a;
+	}
+	
+
+	public StockTransaction(Product product, TxnType txntype, long qtyChange, UsageRecord usageRecord, Annotation a) {
+		super();
+		this.product = product;
+		this.txntype = txntype;
+		this.qtyChange = qtyChange;
+		this.usageRecord = usageRecord;
 		this.annotation = a;
 	}
 	
@@ -96,12 +107,12 @@ public class StockTransaction {
 		this.qtyChange = qtyChange;
 	}
 
-	public String getType() {
-		return type;
+	public TxnType getType() {
+		return txntype;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setType(TxnType txntype) {
+		this.txntype = txntype;
 	}
 	
 	@Transient
@@ -134,6 +145,16 @@ public class StockTransaction {
 	
 	public String getUserName(){
 		return annotation.getUser().getUserName();
+	}
+
+
+	public TxnType getTxntype() {
+		return txntype;
+	}
+
+
+	public void setTxntype(TxnType txntype) {
+		this.txntype = txntype;
 	}
 	
 }

@@ -8,6 +8,7 @@ import team5.model.Annotation;
 import team5.model.Product;
 import team5.model.RoleType;
 import team5.model.StockTransaction;
+import team5.model.TxnType;
 import team5.model.UsageRecord;
 import team5.model.User;
 import team5.repo.AnnotationRepo;
@@ -71,8 +72,8 @@ public class ProductTest {
 		st_repo.save(new StockTransaction(prepo.findById((long) 5).get(), twoR, 4, a3));
 		
 		Annotation a4 = arepo.save(new Annotation(urepo.findById((long)2).get()));
-		st_repo.save(new StockTransaction(prepo.findById((long) 3).get(), 1, "return", a4));
-		st_repo.save(new StockTransaction(prepo.findById((long) 5).get(), 1, "return", a4));
+		st_repo.save(new StockTransaction(prepo.findById((long) 3).get(), 1, TxnType.RETURN, a4));
+		st_repo.save(new StockTransaction(prepo.findById((long) 5).get(), 1, TxnType.RETURN, a4));
 		
 		Annotation a5 = arepo.save(new Annotation(urepo.findById((long)2).get()));
 		st_repo.save(new StockTransaction(prepo.findById((long) 4).get(), 6, a5));
@@ -83,8 +84,8 @@ public class ProductTest {
 		st_repo.save(new StockTransaction(prepo.findById((long) 7).get(), 2, a5));
 		
 		Annotation a6 = arepo.save(new Annotation(urepo.findById((long)2).get()));
-		st_repo.save(new StockTransaction(prepo.findById((long) 4).get(), 1, "return", a6));
-		st_repo.save(new StockTransaction(prepo.findById((long) 7).get(), 1, "return", a6));
+		st_repo.save(new StockTransaction(prepo.findById((long) 4).get(), 1, TxnType.RETURN, a6));
+		st_repo.save(new StockTransaction(prepo.findById((long) 7).get(), 1, TxnType.RETURN, a6));
 	}
 	
 }

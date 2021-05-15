@@ -29,12 +29,12 @@ td {
 			</td>
 			</tr>
 			
-			<tr>
+			<!-- <tr>
 			<td th:if="*{type == 'use'}">Case Record ID</td>
 			<td>
 				<input th:if="*{type == 'use'}" th:field="*{usageRecord.Id}">
 			</td>
-			</tr>
+			</tr> -->
 			
 			<tr>
 			<td>Product ID</td> 
@@ -55,9 +55,11 @@ td {
 			
 			<tr>
 			<td>Type</td>
-				<td th:if="${txn.type.equals('restock')}" class="btn btn-success" th:text=${txn.type}>Type</td>
-				<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
-				<td th:if="${txn.type.equals('return')}" class="btn btn-danger" th:text=${txn.type}>Type</td>
+			<td>
+			    <select th:field="*{txntype}">
+			        <option th:each="type:${T(team5.model.TxnType).values()}" th:value="${type}" th:text="${type}"></option>
+			    </select>
+			</td>
 			</tr>
 			
 			<tr>

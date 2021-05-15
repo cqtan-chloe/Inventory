@@ -31,9 +31,20 @@ public class Product {
 	private List<StockTransaction> stockTranxList;
 
 	private long reorderLevel;
-	private long minReoderLevel;
+	private long minReorderLevel;
 
+	private StockLevelStatus status;
 	
+	public StockLevelStatus detStockLevelStatus() {
+		if (this.qty == 0) 
+			status = StockLevelStatus.DEPLETED;
+		else if (this.qty > 0 && this.qty < this.minReorderLevel)
+			status = StockLevelStatus.INSUFFICIENT;
+		else 
+			status = StockLevelStatus.SUFFICIENT;
+		
+		return status;
+	}
 
 	public Product() {
 		super();
@@ -41,7 +52,7 @@ public class Product {
 	}
 	
 	public Product(long id, String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, long reorderLevel, long minReoderLevel) {
+			long priceFRetail, long qty, long reorderLevel, long minReroderLevel) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,11 +62,12 @@ public class Product {
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
 		this.reorderLevel = reorderLevel;
-		this.minReoderLevel = minReoderLevel;
+		this.minReorderLevel = minReroderLevel;
+		this.status = detStockLevelStatus();
 	}
 	
 	public Product(String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, long reorderLevel, long minReoderLevel) {
+			long priceFRetail, long qty, long reorderLevel, long minReorderLevel) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -64,7 +76,8 @@ public class Product {
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
 		this.reorderLevel = reorderLevel;
-		this.minReoderLevel = minReoderLevel;
+		this.minReorderLevel = minReorderLevel;
+		this.status = detStockLevelStatus();
 	}
 
 	public long getId() {
@@ -139,12 +152,21 @@ public class Product {
 		this.reorderLevel = reorderLevel;
 	}
 
-	public long getMinReoderLevel() {
-		return minReoderLevel;
+	public long getMinReorderLevel() {
+		return minReorderLevel;
 	}
 
-	public void setMinReoderLevel(long minReoderLevel) {
-		this.minReoderLevel = minReoderLevel;
+	public void setMinReorderLevel(long minReorderLevel) {
+		this.minReorderLevel = minReorderLevel;
+	}
+
+	public StockLevelStatus getStatus() {
+		status = detStockLevelStatus();	// re-evaluate
+		return status;
+	}
+
+	public void setStatus(StockLevelStatus status) {
+		this.status = status;
 	}
 
 

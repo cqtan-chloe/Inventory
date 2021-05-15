@@ -32,39 +32,24 @@ public class UsageRecordController {
 		this.session_svc = session_svcimpl;
 	}
 	
-	
 	@RequestMapping(value = "/add")
-	public String addform(Model model) {
+	public String create(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("usage",new UsageRecord());
 		return "usageRecordForm";
 	}
 	
-	@RequestMapping(value = "/save")
-    public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("usage", usagerecord);
-			return "usageRecordForm";
-		}
-		
-		ur_svc.save(usagerecord);
-        return "usageRecord";
-    }
-	
 	@RequestMapping(value = "/list")
-	public String list(Model model) {
+	public String readAll(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		model.addAttribute("usage", ur_svc.findAll());
 		return "usageRecord";
 	}
 	
-	
 	@RequestMapping(value = "/edit/{id}")
-	public String editForm(@PathVariable("id") Long id, Model model) {
+	public String update(@PathVariable("id") Long id, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		UsageRecord ur = ur_svc.findById(id);
@@ -72,13 +57,20 @@ public class UsageRecordController {
 		return "usageRecordForm";
 	}
 	
+	@RequestMapping(value = "/save")
+    public String save(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		if (bindingResult.hasErrors()) { model.addAttribute("usage", usagerecord); return "usageRecordForm"; }
+		
+		ur_svc.save(usagerecord);
+        return "usageRecord";
+    }
+	
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteSupplier(@PathVariable("id") Long id) {
+	public String delete(@PathVariable("id") Long id) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		ur_svc.delete(ur_svc.findById(id));
+		ur_svc.deleteById(id);
 		return "forward:/usage/list";
 	}
-	
-
 }
