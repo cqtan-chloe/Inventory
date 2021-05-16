@@ -43,21 +43,6 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	@Autowired
 	private EmailService emailService;
 	
-//	public StockTransaction makeNewTxn(String type, long id) {
-//		
-//		User user = (User) session.getAttribute("user");
-//		Annotation a = arepo.save(new Annotation(user));
-//		
-//		UsageRecord ur;
-//		if (id == -1) {ur = null;} else {ur = ur_svc.findById(id);}
-//		
-//		StockTransaction out = new StockTransaction(null, 1, a);	   // "restock" by default. type == "restock" for this params combo.
-//		
-//		if (type == "use") out = new StockTransaction(null, ur, 1, a); // type == "use" for this params combo
-//		if (type == "return") out = new StockTransaction(null, 1, "return", a);
-//		
-//		return out;
-//	}
 	
 	public StockTransaction createNewTxn(Long usageRecord_id) {
 		//User user = (User) session.getAttribute("user");
@@ -65,7 +50,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		Annotation a = arepo.save(new Annotation(user));
 		
 		UsageRecord ur;
-		if (usageRecord_id == 0) {ur = null;} else {ur = ur_svc.findById(usageRecord_id);}
+		if (usageRecord_id == -1) {ur = null;} else {ur = ur_svc.findById(usageRecord_id);}
 		
 		// StockTransaction(Product product, TxnType txntype, long qtyChange, UsageRecord usageRecord, Annotation a)
 		StockTransaction out = new StockTransaction(null, null, 0, ur, a);
@@ -76,20 +61,27 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	
 	public void save(StockTransaction txn) {
 
-//		if (txn.getType().equals("use")) {
-//			if (txn.getUsageRecord().getId() == 0) {txn.setUsageRecord(null);}
-//		}
 		txn.setProduct(product_svc.findById(txn.getProduct().getId()));
 		strepo.save(txn);
 		
 		// saving stock transaction records always means that the product involved will be updated ...
+		this.modifyProductRecord(txn);
+		
+		// ... and a notification will be sent if the products needs to be restocked 
+		this.sendNotifications(txn);
+	}
+	
+	private void modifyProductRecord(StockTransaction txn) {
 		Product p = txn.getProduct();
 		
 		p = this.changeProductQty(txn, p);
 		p.setStatus(p.detStockLevelStatus());
 		product_svc.save(p);
+	}
+	
+	private void sendNotifications(StockTransaction txn) {
+		Product p = txn.getProduct();
 		
-		// ... and a notification will be sent if the products needs to be restocked 
 		if(p.getStatus().equals(StockLevelStatus.DEPLETED) | p.getStatus().equals(StockLevelStatus.INSUFFICIENT))
 			this.notifyLowStock(p);
 	}
@@ -134,6 +126,15 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	
 	@Override
 	public void deleteById(Long id) {
+		StockTransaction txn = strepo.findById(id).get();
+		
+		// deleting stock transaction records always means that changes made to product will be reversed ...
+		this.modifyProductRecord(txn);
+		
+		// ... and a notification will be sent if the products needs to be restocked 
+		this.sendNotifications(txn);
+		
+		// stock transaction record can be safely deleted 
 		strepo.deleteById(id);
 	}
 

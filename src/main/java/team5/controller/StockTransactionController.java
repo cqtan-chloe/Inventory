@@ -42,7 +42,6 @@ public class StockTransactionController {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		StockTransaction st = st_svc.createNewTxn((long) 0);
-		//System.out.println("ur id: " + st.getUsageRecord().getId());
 		model.addAttribute("txn", st);
 		return "stockTransactionForm";
 	}
@@ -75,7 +74,6 @@ public class StockTransactionController {
 	
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST) // need method = RequestMethod.POST to get values from dropdown list
-	//public String save(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 	public String save(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (bindingResult.hasErrors()) { model.addAttribute("txn", txn); return "stockTransactionForm"; }
@@ -83,7 +81,6 @@ public class StockTransactionController {
 		System.out.println("txn type: " + txn.getTxntype());
 		
 		st_svc.save(txn);
-		//return "forward:/usage/edit/{id}"; // id is the UsageRecord Id
 		return "forward:/stock/list";
 	}
 	
