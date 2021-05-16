@@ -54,6 +54,7 @@ public class UsageRecordController {
 		
 		UsageRecord ur = ur_svc.findById(id);
 		model.addAttribute("usage", ur);
+		model.addAttribute("usagerecord_id", id);
 		return "usageRecordForm";
 	}
 	

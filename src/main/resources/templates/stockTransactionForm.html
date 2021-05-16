@@ -29,12 +29,13 @@ td {
 			</td>
 			</tr>
 			
-			<!-- <tr>
-			<td th:if="*{type == 'use'}">Case Record ID</td>
-			<td>
-				<input th:if="*{type == 'use'}" th:field="*{usageRecord.Id}">
+			<tr>
+			<td>Case Record ID</td>
+			<td th:if="*{usageRecord != null}" >
+				<input th:field="*{usageRecord.Id}">
 			</td>
-			</tr> -->
+			<td th:if="*{usageRecord == null}" >N/A</td>
+			</tr>
 			
 			<tr>
 			<td>Product ID</td> 
@@ -57,7 +58,8 @@ td {
 			<td>Type</td>
 			<td>
 			    <select th:field="*{txntype}">
-			        <option th:each="type:${T(team5.model.TxnType).values()}" th:value="${type}" th:text="${type}"></option>
+			    	<option th:if="*{usageRecord != null}" th:value="${T(team5.model.TxnType).USE}" th:text="${T(team5.model.TxnType).USE}"></option>
+			        <option th:if="*{usageRecord == null}" th:each="type:${T(team5.model.TxnType).values()}" th:unless="${type == T(team5.model.TxnType).USE}" th:value="${type}" th:text="${type}"></option>
 			    </select>
 			</td>
 			</tr>

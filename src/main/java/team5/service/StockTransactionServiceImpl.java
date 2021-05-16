@@ -101,7 +101,6 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		long prev_val = txn.getPrev_val();
 		long qtyChange = txn.getQtyChange();
 		
-		//if (txntype.equals(TxnType.USE) | txntype.equals(TxnType.RETURN) | txntype.equals(TxnType.CORRECTION_SUBTRACT)) {
 		if (txntype == TxnType.USE | txntype == TxnType.RETURN | txntype == TxnType.CORRECTION_SUBTRACT) {
 			prev_val *= -1;	// convert values to negative
 			qtyChange *= -1;

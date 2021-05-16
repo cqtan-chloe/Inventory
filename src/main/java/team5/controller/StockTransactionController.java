@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.StockTransaction;
 import team5.model.TxnType;
+import team5.model.UsageRecord;
 import team5.service.SessionService;
 import team5.service.SessionServiceImpl;
 import team5.service.StockTransactionService;
@@ -34,23 +36,24 @@ public class StockTransactionController {
     	this.session_svc = session_svcimpl;
     }
     
-	// restock, use, return 
-//	@RequestMapping(value = "/add")
-//	public String create(@PathVariable("id") Long usagerecord_id, TxnType txntype, Model model) {
-//		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-//		
-//		StockTransaction st = st_svc.makeNewTxn(txntype, usagerecord_id);	// usagerecord_id == null if not specified 
-//		model.addAttribute("txn", st);
-//		return "stockTransactionForm";
-//	}
 	
 	@RequestMapping(value = "/add")
-	// public String create(@PathVariable("id") Long usagerecord_id, TxnType txntype, Model model) {
 	public String create(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		Long usagerecord_id = (long) 1;
-		model.addAttribute("txn", st_svc.createNewTxn(usagerecord_id));
+		StockTransaction st = st_svc.createNewTxn((long) 0);
+		//System.out.println("ur id: " + st.getUsageRecord().getId());
+		model.addAttribute("txn", st);
+		return "stockTransactionForm";
+	}
+	
+	@RequestMapping(value = "/add-{id}")
+	public String create(@PathVariable("id") Long usagerecord_id, Model model) {
+		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
+		
+		StockTransaction st = st_svc.createNewTxn(usagerecord_id);
+		System.out.println("ur id: " + st.getUsageRecord().getId());
+		model.addAttribute("txn", st);
 		return "stockTransactionForm";
 	}
 	
@@ -72,7 +75,6 @@ public class StockTransactionController {
 	
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST) // need method = RequestMethod.POST to get values from dropdown list
-	// @RequestMapping(value = "/save")
 	//public String save(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 	public String save(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
