@@ -34,9 +34,11 @@
 				<td th:text=${txn.getUserName()}>Username</td>
 				<td th:text=${txn.product.getName()}>Product Name</td>
 				<td th:text=${txn.qtyChange}>Change In Quantity</td>
-				<!-- <td th:if="${txn.type.equals('restock')}" class="btn btn-success" th:text=${txn.type}>Type</td>
-				<td th:if="${txn.type.equals('use')}" class="btn btn-warning" th:text=${txn.type}>Type</td>
-				<td th:if="${txn.type.equals('return')}" class="btn btn-danger" th:text=${txn.type}>Type</td> -->
+				<td th:if="${txn.txntype == T(team5.model.TxnType).RESTOCK}" class="btn btn-success" th:text=${txn.txntype}>Type</td>
+				<td th:if="${txn.txntype == T(team5.model.TxnType).RETURN}" class="btn btn-warning" th:text=${txn.txntype}>Type</td>
+				<td th:if="${txn.txntype == T(team5.model.TxnType).USE}" class="btn btn-danger" th:text=${txn.txntype}>Type</td>
+				<td th:if="${txn.txntype == T(team5.model.TxnType).CORRECTION_ADD}" class="btn btn-outline-success" th:text=${txn.txntype}>Type</td>
+				<td th:if="${txn.txntype == T(team5.model.TxnType).CORRECTION_SUBTRACT}" class="btn btn-outline-danger" th:text=${txn.txntype}>Type</td>
 				<td><a th:href="@{/stock/edit/}+${txn.id}">Edit</a></td>
 				<td><a th:href="@{/stock/delete/}+${txn.id}">Delete</a></td>
 			</tr>

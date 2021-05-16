@@ -16,6 +16,7 @@ import team5.model.UsageRecord;
 import team5.model.User;
 import team5.repo.AnnotationRepo;
 import team5.repo.StockTransactionRepo;
+import team5.repo.UserRepo;
 
 
 @Service
@@ -32,6 +33,9 @@ public class StockTransactionServiceImpl implements StockTransactionService {
     
 	@Autowired
 	private ProductService product_svc;
+	
+	@Autowired
+	UserRepo urepo;
     
     @Autowired 
     HttpSession session;
@@ -56,7 +60,8 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 //	}
 	
 	public StockTransaction createNewTxn(Long usageRecord_id) {
-		User user = (User) session.getAttribute("user");
+		//User user = (User) session.getAttribute("user");
+		User user = urepo.findByUserName("admin1");
 		Annotation a = arepo.save(new Annotation(user));
 		
 		UsageRecord ur;
@@ -74,7 +79,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 //		if (txn.getType().equals("use")) {
 //			if (txn.getUsageRecord().getId() == 0) {txn.setUsageRecord(null);}
 //		}
-		
+		txn.setProduct(product_svc.findById(txn.getProduct().getId()));
 		strepo.save(txn);
 		
 		// saving stock transaction records always means that the product involved will be updated ...

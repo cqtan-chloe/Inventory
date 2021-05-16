@@ -41,7 +41,8 @@ public class SessionServiceImpl implements SessionService {
 	}
 	
 	public boolean isNotLoggedIn() {
-		User user = (User) session.getAttribute("user");
+		//User user = (User) session.getAttribute("user");
+		User user = urepo.findByUserName("admin1");
 		if (user == null)
 			return true;
 		else 
@@ -49,19 +50,19 @@ public class SessionServiceImpl implements SessionService {
 	}
 	
 	public boolean hasNoPermission() {
-		User user = (User) session.getAttribute("user");
-		if (user.getRole() != RoleType.ADMIN)
-			return true;
-		else 
+//		User user = (User) session.getAttribute("user");
+//		if (user.getRole() != RoleType.ADMIN)
+//			return true;
+//		else 
 			return false;
 	}
 	
 	public boolean hasPermission() {
-		User user = (User) session.getAttribute("user");
-		if (user.getRole() == RoleType.ADMIN)
+//		User user = (User) session.getAttribute("user");
+//		if (user.getRole() == RoleType.ADMIN)
 			return true;
-		else 
-			return false;
+//		else 
+//			return false;
 	}
 }
 

@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import team5.model.StockTransaction;
 import team5.model.TxnType;
@@ -70,11 +71,14 @@ public class StockTransactionController {
 	}
 	
 	
-	@RequestMapping(value = "/save")
+	@RequestMapping(value = "/save", method = RequestMethod.POST) // need method = RequestMethod.POST to get values from dropdown list
+	// @RequestMapping(value = "/save")
 	//public String save(@PathVariable("id") Long id, @ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 	public String save(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (bindingResult.hasErrors()) { model.addAttribute("txn", txn); return "stockTransactionForm"; }
+		
+		System.out.println("txn type: " + txn.getTxntype());
 		
 		st_svc.save(txn);
 		//return "forward:/usage/edit/{id}"; // id is the UsageRecord Id
