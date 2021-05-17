@@ -37,21 +37,11 @@ public class StockTransactionController {
     }
     
 	
-	@RequestMapping(value = "/add")
-	public String create(Model model) {
-		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
-		
-		StockTransaction st = st_svc.createNewTxn((long) 0);
-		model.addAttribute("txn", st);
-		return "stockTransactionForm";
-	}
-	
-	@RequestMapping(value = "/add-{id}")
-	public String create(@PathVariable("id") Long usagerecord_id, Model model) {
+	@RequestMapping(value = {"/add", "/add-{usagerecord_id}"})
+	public String create(@PathVariable(required = false) Long usagerecord_id, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
 		StockTransaction st = st_svc.createNewTxn(usagerecord_id);
-		System.out.println("ur id: " + st.getUsageRecord().getId());
 		model.addAttribute("txn", st);
 		return "stockTransactionForm";
 	}

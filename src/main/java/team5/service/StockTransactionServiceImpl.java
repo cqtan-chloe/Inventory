@@ -50,7 +50,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		Annotation a = arepo.save(new Annotation(user));
 		
 		UsageRecord ur;
-		if (usageRecord_id == -1) {ur = null;} else {ur = ur_svc.findById(usageRecord_id);}
+		if (usageRecord_id == null) {ur = null;} else {ur = ur_svc.findById(usageRecord_id);}
 		
 		// StockTransaction(Product product, TxnType txntype, long qtyChange, UsageRecord usageRecord, Annotation a)
 		StockTransaction out = new StockTransaction(null, null, 0, ur, a);
