@@ -29,6 +29,7 @@ form td {
 			<td>Customer Name</td>
 			<td>
 				 <input type ="text" th:field="*{customerName}"/>
+				 <p th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}">
 			</td>
 			</tr>
 			
@@ -36,6 +37,7 @@ form td {
 			<td>Car Plate Number</td>
 			<td>
 				 <input type ="text" th:field="*{carPlate}">
+				 <p th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}">
 			</td>
 			</tr>
 			
@@ -43,6 +45,7 @@ form td {
 			<td>Date</td>
 			<td>
 				 <input type="text" th:field="*{date}" placeholder="dd-MM-yyyy" />
+				 <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}">
 			</td>
 			</tr>
 			
@@ -50,6 +53,7 @@ form td {
 			<td>Comments:</td>
 			<td>
 				<textarea name="comments" th:text="*{comments}"></textarea>
+				<p th:if="${#fields.hasErrors('comments')}" th:errors="*{comments}">
 			</td>
 			</tr>
 			

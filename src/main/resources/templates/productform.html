@@ -35,42 +35,39 @@ td {
 				</tr>
 				<tr>
 					<td>Description</td>
-					<td><input type="text" th:field="*{description}"></td>
+					<td><input type="text" th:field="*{description}">
+					<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p></td>
 				</tr>
 	
 				<tr>
 					<td>Original Price</td>
 					<td><input type="text" th:field="*{originalPrice}">
-				<p th:if="${#fields.hasErrors('originalPrice')}" th:errors="*{originalPrice}"></p></td>
+					<p th:if="${#fields.hasErrors('originalPrice')}" th:errors="*{originalPrice}"></p></td>
 				</tr>
 				<tr>
 					<td>Category</td>
-					<td><input type="text" th:field="*{category}"></td>
+					<td><input type="text" th:field="*{category}">
+					<p th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p></td>
 				</tr>
 	
 				<tr>
 					<td>Retail Price</td>
 					<td><input type="text" th:field="*{priceFRetail}">
-				<p th:if="${#fields.hasErrors('priceFRetail')}" th:errors="*{priceFRetail}"></p></td>
+					<p th:if="${#fields.hasErrors('priceFRetail')}" th:errors="*{priceFRetail}"></p></td>
 				</tr>
 	
 				<tr>
 					<td>Quantity</td>
 					<td><input type="text" th:field="*{qty}">
-				<p th:if="${#fields.hasErrors('qty')}" th:errors="*{qty}"></td>
+					<p th:if="${#fields.hasErrors('qty')}" th:errors="*{qty}"></td>
 				</tr>
 	
 				<tr>
 					<td>Record Level</td>
 					<td><input type="text" th:field="*{reorderLevel}">
-				<p th:if="${#fields.hasErrors('reorderLevel')}" th:errors="reorderLevel"></p></td>
+					<p th:if="${#fields.hasErrors('reorderLevel')}" th:errors="reorderLevel"></p></td>
 				</tr>
-				<tr>
-					<td>Minimum Reorder Level</td>
-					<td> <input type="text"
-					th:field="*{minReorderLevel}">
-					<p th:if="${#fields.hasErrors('minReorderLevel')}" th:errors="*{minReorderLevel}"></p></td>
-				</tr>
+
 				<tr>
 					<td colspan="3"><button type="submit" class="button" style="float: right;">Save</button></td>
 				</tr>

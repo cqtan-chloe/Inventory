@@ -41,14 +41,14 @@ public class ProductTest {
 	
 	@Test
 	public void saveProduct() {
-		prepo.save(new Product("Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.", 20,"Category A", 100, 2, 1, 1));
-		prepo.save(new Product("Large Table Clamp","Can attach to tables, shelves, or other boards up to 10 cm thick.", 20,"Category B", 150 , 3, 1, 1));
-		prepo.save(new Product("Tension Protractor","ME-6855", 50,"Category C", 60, 14, 1, 4));
-		prepo.save(new Product("Jeep wheel","The best wheel for jeep.", 20,"Category A", 200, 19, 5, 2));
-		prepo.save(new Product("Tyre","ME-6855", 50,"Category C", 60, 18, 10, 4));
-		prepo.save(new Product("Suspension","ME-6855", 50,"Category B", 70, 15, 10, 4));
-		prepo.save(new Product("Pedal","ME-6855", 50,"Category B", 80, 6, 10, 4));
-		prepo.save(new Product("Engine","ME-6855", 50,"Category B", 90, 10, 10, 4));
+		prepo.save(new Product("Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.", 20,"Category A", 100, 2, 1));
+		prepo.save(new Product("Large Table Clamp","Can attach to tables, shelves, or other boards up to 10 cm thick.", 20,"Category B", 150 , 3, 1));
+		prepo.save(new Product("Tension Protractor","ME-6855", 50,"Category C", 60, 14, 4));
+		prepo.save(new Product("Jeep wheel","The best wheel for jeep.", 20,"Category A", 200, 19, 2));
+		prepo.save(new Product("Tyre","ME-6855", 50,"Category C", 60, 18, 4));
+		prepo.save(new Product("Suspension","ME-6855", 50,"Category B", 70, 15, 4));
+		prepo.save(new Product("Pedal","ME-6855", 50,"Category B", 80, 6, 4));
+		prepo.save(new Product("Engine","ME-6855", 50,"Category B", 90, 10, 4));
 		
 	}
 	

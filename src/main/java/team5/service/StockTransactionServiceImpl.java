@@ -118,9 +118,9 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	private void notifyLowStock(Product p) {
 		String s = "Product: " + p.getName() + "\n" +  
 					"Qty: " + p.getQty() + "\n" + 
-					"MinReorderLevel: " +  p.getMinReorderLevel() + "\n";
+					"MinReorderLevel: " +  p.getReorderLevel() + "\n";
 		
-		if (p.getQty() < p.getMinReorderLevel())
+		if (p.getQty() < p.getReorderLevel())
 			emailService.sendMail("c.q.tan94@gmail.com", "Notification to restock", s);
 	}
 

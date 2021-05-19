@@ -19,10 +19,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public Product create() {
-		//Product p = new Product();
+		Product p = new Product();
 		
 		// existing record is replaced. no isExist error. 
-		Product p = new Product(2, "dfgdffg", "vbcvbvc", 50, "ggfhfgh", 100, 0, 5, 5);
+		// Product p = new Product(2, "dfgdffg", "vbcvbvc", 50, "ggfhfgh", 100, 0, 5);
 		return p;
 	}
 	

@@ -33,14 +33,13 @@ public class Product {
 	private List<StockTransaction> stockTranxList;
 
 	private long reorderLevel;
-	private long minReorderLevel;
 
 	private StockLevelStatus status;
 	
 	public StockLevelStatus detStockLevelStatus() {
 		if (this.qty == 0) 
 			status = StockLevelStatus.DEPLETED;
-		else if (this.qty > 0 && this.qty < this.minReorderLevel)
+		else if (this.qty > 0 && this.qty < this.reorderLevel)
 			status = StockLevelStatus.INSUFFICIENT;
 		else 
 			status = StockLevelStatus.SUFFICIENT;
@@ -54,7 +53,7 @@ public class Product {
 	}
 	
 	public Product(long id, String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, long reorderLevel, long minReorderLevel) {
+			long priceFRetail, long qty, long reorderLevel) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -64,12 +63,11 @@ public class Product {
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
 		this.reorderLevel = reorderLevel;
-		this.minReorderLevel = minReorderLevel;
 		this.status = detStockLevelStatus();
 	}
 	
 	public Product(String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, long reorderLevel, long minReorderLevel) {
+			long priceFRetail, long qty, long reorderLevel) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -78,7 +76,6 @@ public class Product {
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
 		this.reorderLevel = reorderLevel;
-		this.minReorderLevel = minReorderLevel;
 		this.status = detStockLevelStatus();
 	}
 
@@ -154,14 +151,6 @@ public class Product {
 		this.reorderLevel = reorderLevel;
 	}
 
-	public long getMinReorderLevel() {
-		return minReorderLevel;
-	}
-
-	public void setMinReorderLevel(long minReorderLevel) {
-		this.minReorderLevel = minReorderLevel;
-	}
-
 	public StockLevelStatus getStatus() {
 		status = detStockLevelStatus();	// re-evaluate
 		return status;
@@ -170,6 +159,4 @@ public class Product {
 	public void setStatus(StockLevelStatus status) {
 		this.status = status;
 	}
-
-
 }

@@ -33,6 +33,7 @@ td {
 			<td>Case Record ID</td>
 			<td th:if="*{usageRecord != null}" >
 				<input th:field="*{usageRecord.Id}">
+				<p th:if="${#fields.hasErrors('usageRecord.Id')}" th:errors="*{usageRecord.Id}">
 			</td>
 			<td th:if="*{usageRecord == null}" >N/A</td>
 			</tr>
@@ -61,6 +62,7 @@ td {
 			    	<option th:if="*{usageRecord != null}" th:value="${T(team5.model.TxnType).USE}" th:text="${T(team5.model.TxnType).USE}"></option>
 			        <option th:if="*{usageRecord == null}" th:each="type:${T(team5.model.TxnType).values()}" th:unless="${type == T(team5.model.TxnType).USE}" th:value="${type}" th:text="${type}"></option>
 			    </select>
+			    <p th:if="${#fields.hasErrors('txntype')}" th:errors="*{txntype}">
 			</td>
 			</tr>
 			
