@@ -6,12 +6,12 @@ import java.util.List;
 public interface IService<T> {
 	
 	// Create, Update 
+	public T create();
 	public void save(T x);
 	
 	// Read 
 	public T findById(Long id);
-	public List<T> findAll();
-	//public T findByName(String name);
+	public List<T> find();
 	
 	// Delete 
 	public void deleteById(Long id);

@@ -48,7 +48,8 @@ public class ProductController {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (session_svc.hasNoPermission()) return "nopermission";
 		
-		model.addAttribute("product", new Product());
+		Product p = product_svc.create();
+		model.addAttribute("product", p);
 		return "productform";
 	}
 	
@@ -56,7 +57,7 @@ public class ProductController {
 	public String readAll(Model model, @Param("keyword") String keyword) {	// keyword is null if not specified
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		model.addAttribute("products",product_svc.find_withfilter(keyword));
+		model.addAttribute("products",product_svc.find(keyword));
 		model.addAttribute("hasPermission",session_svc.hasPermission());
 		return "products";
 	}

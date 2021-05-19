@@ -36,7 +36,8 @@ public class UsageRecordController {
 	public String create(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		model.addAttribute("usage",new UsageRecord());
+		UsageRecord ur = ur_svc.create();
+		model.addAttribute("usage", ur);
 		return "usageRecordForm";
 	}
 	
@@ -44,7 +45,7 @@ public class UsageRecordController {
 	public String readAll(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		model.addAttribute("usage", ur_svc.findAll());
+		model.addAttribute("usage", ur_svc.find());
 		return "usageRecord";
 	}
 	
@@ -54,7 +55,6 @@ public class UsageRecordController {
 		
 		UsageRecord ur = ur_svc.findById(id);
 		model.addAttribute("usage", ur);
-		model.addAttribute("usagerecord_id", id);
 		return "usageRecordForm";
 	}
 	

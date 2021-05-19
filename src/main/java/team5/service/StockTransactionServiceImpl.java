@@ -44,7 +44,13 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	private EmailService emailService;
 	
 	
-	public StockTransaction createNewTxn(Long usageRecord_id) {
+	@Override
+	public StockTransaction create() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public StockTransaction create(Long usageRecord_id) {
 		//User user = (User) session.getAttribute("user");
 		User user = urepo.findByUserName("admin1");
 		Annotation a = arepo.save(new Annotation(user));
@@ -120,7 +126,7 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 	}
 
 	@Override
-	public List<StockTransaction> findAll() {
+	public List<StockTransaction> find() {
 		return strepo.findAll(); 
 	}
 	

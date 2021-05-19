@@ -41,7 +41,7 @@ public class StockTransactionController {
 	public String create(@PathVariable(required = false) Long usagerecord_id, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		
-		StockTransaction st = st_svc.createNewTxn(usagerecord_id);
+		StockTransaction st = st_svc.create(usagerecord_id);
 		model.addAttribute("txn", st);
 		return "stockTransactionForm";
 	}
@@ -50,7 +50,7 @@ public class StockTransactionController {
 	public String readAll(Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 
-		model.addAttribute("txns", st_svc.findAll());
+		model.addAttribute("txns", st_svc.find());
 		return "stockTransaction";	
 	}
 	
@@ -67,9 +67,7 @@ public class StockTransactionController {
 	public String save(@ModelAttribute("txn") @Valid StockTransaction txn, BindingResult bindingResult, Model model) {
 		if (session_svc.isNotLoggedIn()) return "redirect:/user/login";
 		if (bindingResult.hasErrors()) { model.addAttribute("txn", txn); return "stockTransactionForm"; }
-		
-		System.out.println("txn type: " + txn.getTxntype());
-		
+
 		st_svc.save(txn);
 		return "forward:/stock/list";
 	}

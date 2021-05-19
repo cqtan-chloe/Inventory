@@ -18,6 +18,12 @@ public class ProductServiceImpl implements ProductService {
 	ProductRepo prepo;
 	
 	@Override
+	public Product create() {
+		Product p = new Product();
+		return p;
+	}
+	
+	@Override
 	public void save(Product product) {
 		prepo.save(product);
 	}
@@ -27,12 +33,7 @@ public class ProductServiceImpl implements ProductService {
 		return prepo.findById(id).get();
 	}
 	
-	@Override
-	public List<Product> findAll(){
-		return prepo.findAll(); 
-	}
-	
-	public List<Product> find_withfilter(String keyword) {       
+	public List<Product> find(String keyword) {       
 		if (keyword == null) keyword = "";
 		
 		return prepo.find_withfilter1(keyword);
@@ -41,6 +42,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteById(Long id) {
 		prepo.deleteById(id);
+	}
+
+	@Override
+	public List<Product> find() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

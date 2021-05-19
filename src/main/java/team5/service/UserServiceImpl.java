@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findAll() {
+	public List<User> find() {
 		List<User> users = userRepo.findAll();
 		return users;
 	}
@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteById(Long id) {
 		userRepo.deleteById(id);
+	}
+
+	@Override
+	public User create() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

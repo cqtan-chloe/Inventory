@@ -16,6 +16,12 @@ public class UsageRecordServiceImpl implements UsageRecordService {
 	UsageRecordRepo urrepo;
 	
 	
+	@Override
+	public UsageRecord create() {
+		UsageRecord ur = new UsageRecord();
+		return ur;
+	}
+	
 	public void save(UsageRecord ur) {
 		urrepo.save(ur);
 	}
@@ -26,7 +32,7 @@ public class UsageRecordServiceImpl implements UsageRecordService {
 	}
 	
 	@Transactional
-	public List<UsageRecord> findAll(){
+	public List<UsageRecord> find(){
 		return urrepo.findAll();
 	}
 	

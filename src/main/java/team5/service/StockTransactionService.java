@@ -4,5 +4,5 @@ import team5.model.StockTransaction;
 
 public interface StockTransactionService extends IService<StockTransaction> {
 
-	StockTransaction createNewTxn(Long usagerecord_id);
+	StockTransaction create(Long usagerecord_id);
 }
