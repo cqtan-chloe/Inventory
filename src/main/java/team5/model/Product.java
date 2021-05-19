@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 
 import com.sun.istack.NotNull;
 
@@ -25,6 +26,7 @@ public class Product {
 	private String category;
 	@Digits(integer = 8, fraction = 2)
 	private long priceFRetail;
+	@Min(0)
 	private long qty;
 
 	@OneToMany(mappedBy = "product", cascade = {CascadeType.ALL})
@@ -52,7 +54,7 @@ public class Product {
 	}
 	
 	public Product(long id, String name, String description, long originalPrice, String category,
-			long priceFRetail, long qty, long reorderLevel, long minReroderLevel) {
+			long priceFRetail, long qty, long reorderLevel, long minReorderLevel) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -62,7 +64,7 @@ public class Product {
 		this.priceFRetail = priceFRetail;
 		this.qty = qty;
 		this.reorderLevel = reorderLevel;
-		this.minReorderLevel = minReroderLevel;
+		this.minReorderLevel = minReorderLevel;
 		this.status = detStockLevelStatus();
 	}
 	

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 
 @Entity
 public class StockTransaction {
@@ -26,6 +27,7 @@ public class StockTransaction {
 	@OneToOne//(mappedBy = "stockTranx")
 	private  Annotation annotation;
 	
+	@Min(0)
 	private long qtyChange;	// absolute value of quantity change 
 	
 	private TxnType txntype;	

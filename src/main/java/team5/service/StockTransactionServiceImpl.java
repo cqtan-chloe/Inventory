@@ -81,8 +81,14 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 		Product p = txn.getProduct();
 		
 		p = this.changeProductQty(txn, p);
-		p.setStatus(p.detStockLevelStatus());
-		product_svc.save(p);
+		
+		if (p.getQty() < 0) {
+			System.out.println("transaction declined. sufficient stock.");
+		}
+		else {
+			p.setStatus(p.detStockLevelStatus());
+			product_svc.save(p);
+		}
 	}
 	
 	private void sendNotifications(StockTransaction txn) {

@@ -20,7 +20,7 @@ public class User {
 	@NotNull
     private String userName;
 	@NotNull
-	@Size(min=2,max=30)
+	@Size(min=8,max=30)
 	private String password;
 	@NotNull
 	private RoleType role;
